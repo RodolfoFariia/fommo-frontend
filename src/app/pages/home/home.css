@@ -30,7 +30,7 @@
     object-fit: contain;
     
     /* Animação suave fazendo a logo flutuar) */
-    animation: float 6s ease-in-out infinite;
+    animation: float 5s ease-in-out infinite;
 }
 
 
@@ -45,13 +45,14 @@
     margin-bottom: 1rem;
     color: white;
 }
-
+/*
 .highlight {
-    /* Gradiente no texto */
+    /* Gradiente no texto 
     background: linear-gradient(to right, #00F3FF, #FF0099);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+*/
 
 .text-content p {
     font-size: 1.3rem; 
@@ -61,7 +62,7 @@
 }
 
 .text-content strong {
-    color: white; /* Destaque em branco para a frase de efeito */
+    color: #600363; /* Destaque em branco para a frase de efeito */
     font-weight: 600;
 }
 
@@ -93,7 +94,7 @@
 
 @keyframes float {
     0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-20px); }
     100% { transform: translateY(0px); }
 }
 
