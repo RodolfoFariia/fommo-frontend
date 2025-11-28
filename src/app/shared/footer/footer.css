@@ -1,0 +1,38 @@
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    margin: 0.5rem;
+    padding: 0 2rem;
+    min-height: 5vh;
+
+    border: 1px solid rgba(157, 0, 255, 0.3); 
+    border-radius: 45px;
+    background-color: black; /* Usando o roxo escuro com transparência */
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Sombra para destacar do fundo */
+    
+    color: #a49ebf; 
+    font-size: 0.9rem;
+}
+
+.linkedin-links{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    a{
+        text-decoration: none; 
+        color: #e0e0e0;        
+        font-weight: 500;
+        transition: all 0.3s ease; 
+        position: relative;
+    }
+
+    a:hover{
+        color: #00F3FF; 
+        text-shadow: 0 0 8px rgba(0, 243, 255, 0.6); 
+        transform: translateY(-2px);
+    }
+}

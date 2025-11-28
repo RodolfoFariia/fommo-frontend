@@ -1,0 +1,109 @@
+
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: space-between;
+    
+    margin: 0.5rem;
+    padding: 0 2rem;
+    min-height: 8vh;
+
+    border: 1px solid black; 
+    border-radius: 45px;
+     /* Usando o roxo escuro com transparência */
+    background-color: black;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Sombra para destacar do fundo */
+    
+    color: white;
+}
+
+#logo-content{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.fommo-text{
+    color: white;
+    font-family: "Rubik Glitch", system-ui;
+    font-weight: 400;
+    font-size: 2rem;
+    
+    letter-spacing: 2px;
+    
+    /* Gradiente no texto para ficar Cyberpunk */
+    background: linear-gradient(to right, #00F3FF, #FF0099);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-links{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.text-user{
+    font-size: 1.1rem;
+    color: #ccc;
+}
+
+.text-user strong {
+    color: #fff;
+}
+
+
+.link-text, .link-btn {
+    text-decoration: none;
+    color: #e0e0e0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.link-text:hover, .link-btn:hover {
+    color: #00F3FF; /* Ciano no hover */
+}
+
+/* Botão de Destaque (Registre-se) */
+.link-btn-primary {
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    
+    /* Estilo de Botão Neon */
+    padding: 10px 24px;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #9D00FF, #FF0099);
+    box-shadow: 0 0 10px rgba(157, 0, 255, 0.4);
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.link-btn-primary:hover {
+    transform: scale(1.05); /* Cresce um pouco */
+    filter: brightness(1.2); /* Brilha mais */
+}
+
+/* Adicione/Altere isso: */
+
+.logo-img {
+    height: 80px; /* Ajuste para caber na altura do seu header (que tem min-height 80px) */
+    width: auto;  /* Mantém a proporção correta */
+    object-fit: contain;
+    
+    /* Opcional: Se for SVG, você pode adicionar um filtro de sombra neon */
+    
+}
+
+/* Ajuste o container para alinhar bem */
+#logo-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer; /* Importante para indicar que é clicável (Home) */
+}

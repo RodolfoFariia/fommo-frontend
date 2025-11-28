@@ -1,0 +1,122 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; 
+}
+
+
+.login-form {
+    background-color: black; /* Roxo escuro vidro */
+    padding: 2.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(157, 0, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+    width: 100%;
+    max-width: 400px; 
+    color: white;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 0.5rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.subtitle {
+    color: #a49ebf;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    background-color: #090014; 
+    border: 1px solid #2d2d44;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #00F3FF; /* Ciano ao focar */
+    box-shadow: 0 0 8px rgba(0, 243, 255, 0.3);
+}
+
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #9D00FF, #FF0099); /* Roxo -> Rosa */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s;
+}
+
+button:hover:not(:disabled) {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+.register-text {
+    font-size: 0.9rem;
+    color: #a49ebf;
+}
+
+.register-text a {
+    color: #00F3FF; 
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+
+.error-alert {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  
+  /* Estilo Cyberpunk de Erro */
+  background-color: rgba(255, 51, 102, 0.1); /* Fundo vermelho transparente */
+  border: 1px solid #FF3366; /* Borda Rosa Choque */
+  color: #FF3366; /* Texto Rosa Choque */
+  
+  /* Animação suave para aparecer */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

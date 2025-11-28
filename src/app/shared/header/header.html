@@ -1,1 +1,19 @@
-<p>header works!</p>
+<header class="header">
+    <div id="logo-content">
+        <img src="images/logo2.svg" alt="Logo FOMMO" class="logo-img">
+        
+    </div>
+
+    <nav class="nav-links">
+        @if (isLogged()){
+        <span class="text-user">Olá, {{userName()}}</span>
+        <a class="link-btn" (click)="logout()">Sair</a>
+        }
+        @else{
+            <a class="link-text" routerLink="/login">Entrar</a>
+            <a class="link-btn-primary" routerLink="/register">Registre-se</a>
+        }
+    </nav>
+    
+
+</header>

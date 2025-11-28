@@ -1,1 +1,48 @@
-<p>login works!</p>
+<div class="login-container">
+  
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    
+    <h2>Bem-vindo de Volta</h2>
+    <p class="subtitle">Acesse sua conta FOMMO</p>
+
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input 
+        type="email" 
+        id="email" 
+        formControlName="email"
+        placeholder="seu@email.com"
+      >
+    </div>
+
+    <div class="input-group">
+      <label for="password">Senha</label>
+      <input 
+        type="password" 
+        id="password" 
+        formControlName="senha"
+        placeholder="••••••••"
+      >
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid" >
+        @if (loading()) {
+            <span>Carregando...</span>
+        } @else {
+            <span>Entrar</span>
+        }
+    </button>
+
+        @if (errorMsg()) {
+        <div class="error-alert">
+         {{ errorMsg() }}
+        </div>
+    }
+
+    <span class="register-text">
+      Ainda não tem conta? 
+      <a routerLink="/register">Registre-se</a>
+    </span>
+  
+  </form>
+</div>

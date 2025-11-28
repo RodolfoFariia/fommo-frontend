@@ -1,0 +1,13 @@
+/* :host refere-se ao próprio <app-root> */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ocupa no mínimo a tela inteira */
+  background: linear-gradient(45deg, #9D00FF, #FF0099);
+}
+
+/* O main vai "crescer" (flex: 1) para ocupar todo o espaço vazio disponível */
+main {
+  flex: 1;
+  
+}
