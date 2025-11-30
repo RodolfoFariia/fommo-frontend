@@ -1,0 +1,208 @@
+/* --- Container Principal (Centraliza na tela) --- */
+.user-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Ocupa quase a altura toda */
+    padding: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+
+.user-card {
+    background-color: black; /* Roxo muito escuro e translúcido */
+    border: 1px solid rgba(157, 0, 255, 0.3); /* Borda roxa sutil */
+    border-radius: 20px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 500px; /* Largura máxima elegante */
+    
+    /* Sombra e Brilho */
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden; /* Para o brilho não vazar */
+}
+
+/* Detalhe: Borda superior brilhante (Neon) */
+.user-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #00F3FF, #9D00FF, #FF0099);
+}
+
+/* --- Cabeçalho (Avatar + Título) --- */
+.card-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.img-user {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
+    
+    /* Círculo do Avatar */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Borda Neon */
+    border: 2px solid #00F3FF;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+.img-user img {
+    width: 50px;
+    height: 50px;
+    filter: invert(1); /* Deixa o ícone branco se for preto */
+}
+
+.card-header h2 {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* --- Formulário e Inputs --- */
+.user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Espaço entre os inputs */
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 8px;
+}
+
+.input label {
+    color: #a49ebf; /* Texto cinza arroxeado */
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.input input {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #090014; /* Fundo quase preto */
+    border: 1px solid #2d2d44;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Estado: Input Desabilitado (Modo Leitura) */
+.input input:disabled {
+    background-color: transparent;
+    border-color: transparent;
+    color: #e0e0e0;
+    padding-left: 0;
+    cursor: default; /* Mouse normal */
+    font-weight: 600;
+}
+
+/* Estado: Input Focado (Modo Edição) */
+.input input:enabled:focus {
+    outline: none;
+    border-color: #00F3FF; /* Borda Ciano */
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); /* Glow */
+    background-color: #151030;
+}
+
+/* --- Botões de Ação (Editar/Salvar/Cancelar) --- */
+.options {
+    display: flex;
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+button {
+    flex: 1; /* Botões ocupam largura igual */
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* Botão Editar */
+.btn-edit {
+    background: transparent;
+    border: 1px solid #00F3FF;
+    color: #00F3FF;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+}
+
+.btn-edit:hover {
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+}
+
+/* Botão Salvar */
+.btn-save {
+    border: none;
+    background: linear-gradient(45deg, #9D00FF, #FF0099);
+    color: white;
+    box-shadow: 0 4px 15px rgba(157, 0, 255, 0.4);
+}
+
+.btn-save:disabled {
+    filter: grayscale(0.8);
+    cursor: not-allowed;
+}
+
+/* Botão Cancelar */
+.btn-cancel {
+    background: transparent;
+    border: 1px solid #666;
+    color: #ccc;
+}
+
+.btn-cancel:hover {
+    border-color: white;
+    color: white;
+}
+
+/* --- Área de Perigo (Excluir) --- */
+.delete-container {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Linha separadora */
+    text-align: center;
+}
+
+.btn-delete {
+    background: transparent;
+    border: 1px solid rgba(255, 75, 75, 0.3);
+    color: #FF4B4B; /* Vermelho Erro */
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    width: auto; /* Não ocupa a largura toda */
+}
+
+.btn-delete:hover {
+    background: rgba(255, 75, 75, 0.1);
+    border-color: #FF4B4B;
+    box-shadow: 0 0 15px rgba(255, 75, 75, 0.2);
+}
+
+/* Animação de entrada suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

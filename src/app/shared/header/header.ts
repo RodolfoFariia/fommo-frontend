@@ -1,4 +1,4 @@
-import { Component , OnInit, Signal, WritableSignal} from '@angular/core';
+import { Component , computed, inject, OnInit, Signal, WritableSignal} from '@angular/core';
 import { RouterLink} from '@angular/router';
 import { Observable } from 'rxjs';
 import { Auth } from '../../services/auth';
@@ -13,15 +13,22 @@ import { Logo } from '../logo/logo';
   styleUrl: './header.css',
 })
 export class Header{
+  private auth = inject(Auth);
 
 
+  isLogged = this.auth.isLogged;
 
-  isLogged: Signal<boolean>; 
-  userName: WritableSignal<string>;
+  userName = computed(() => {
+    // pega o nome completo do usuário logado
+    const nomeCompleto = this.auth.userName();
+    if(!nomeCompleto) return '';
 
-  constructor(private auth: Auth) {
-    this.isLogged = this.auth.isLogged;
-    this.userName = this.auth.userName;
+    // retorna somente o primeiro nome 
+    return nomeCompleto.split(" ")[0];
+  });
+
+
+  constructor() {
   }
 
   logout(){

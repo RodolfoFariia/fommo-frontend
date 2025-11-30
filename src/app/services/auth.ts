@@ -14,7 +14,7 @@ export class Auth {
   public userName = signal<string>('');
 
   constructor(private http: HttpClient, private router: Router){
-    console.log('⚠️ Auth Service foi CRIADO!');
+    console.log('Auth Service criado');
     if (this.isLogged()) {
       this.getUserProfile();
     }
@@ -23,6 +23,7 @@ export class Auth {
   sendLogin(data: LoginRequest): Observable<LoginResponse>{
       return this.http.post<LoginResponse>(`${this.endpointServer}/auth/login`, data).pipe(
         tap((response) =>{
+          console.log(response.token);
           localStorage.setItem("token",response.token)
           this.isLogged.set(true);
 

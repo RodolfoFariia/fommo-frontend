@@ -6,6 +6,7 @@
     <nav class="nav-links">
         @if (isLogged()){
         <span class="text-user">Olá, {{userName()}}</span>
+        <a class="link-btn" routerLink="/usuario">Minha Conta</a>
         <a class="link-btn" (click)="logout()">Sair</a>
         }
         @else{

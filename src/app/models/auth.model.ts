@@ -13,5 +13,5 @@ export interface UsuarioResponse {
   idUsuario: number;
   nome: string;
   email: string;
-  dataNascimento: string;
+  data_nascimento: string;
 }
