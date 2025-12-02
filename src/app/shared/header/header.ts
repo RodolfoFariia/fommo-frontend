@@ -8,7 +8,7 @@ import { Logo } from '../logo/logo';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, Logo],
+  imports: [RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })

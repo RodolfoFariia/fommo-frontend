@@ -6,7 +6,7 @@ import { Logo } from './shared/logo/logo';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,Footer,Header,Logo],
+  imports: [RouterOutlet,Footer,Header],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

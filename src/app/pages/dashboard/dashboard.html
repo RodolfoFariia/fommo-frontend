@@ -1,1 +1,46 @@
-<p>dashboard works!</p>
+<div class="container-dashboard">
+    
+    <form [formGroup]="searchForm" (ngSubmit)="search()" class="search-bar-container">
+        
+        <div class="select-wrapper">
+            <select formControlName="type" class="custom-select">
+                @for (type of searchTypes; track type.value) {
+                    <option [value]="type.value">{{ type.label }}</option>
+                }
+            </select>
+        </div>
+
+        <input 
+            type="text" 
+            formControlName="query" 
+            id="search" 
+            placeholder="Ex: Lady Gaga, Thriller..." 
+            class="search-input"
+        >
+
+        <button type="submit" id="btn-search" class="btn-neon">
+            Buscar
+        </button>
+
+    </form>
+   
+    <div class="results-section">
+
+        @if (searching()) {
+            <p>Buscando...</p>
+        } 
+        @else {
+            <div class="grid-results">
+                @for (item of displayItems(); track item.id){
+                    <app-music-card [data]="item"></app-music-card>
+                }
+            </div>
+
+            @if(displayItems().length === 0 && hasSearched()){
+                <p>Nenhum resultado encontrado.</p>
+            }
+        }
+
+</div>
+
+</div>

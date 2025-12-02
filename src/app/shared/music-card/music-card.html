@@ -1,0 +1,10 @@
+<div class="card">
+    <img [src]="data().imageUrl" alt="Capa">
+
+    <div class="card-info">
+        <p class="title">{{data().title}}</p>
+        @if(data().subtitle){
+            <p class="subtitle">{{data().subtitle}}</p>
+        }
+    </div>
+</div>

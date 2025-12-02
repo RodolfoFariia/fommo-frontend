@@ -1,0 +1,140 @@
+/* --- Layout Principal --- */
+.container-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 80vh;
+}
+
+/* --- Barra de Busca (O "Painel de Controle") --- */
+.search-bar-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    
+    /* Estilo de Vidro/Neon */
+    background-color: rgba(21, 16, 48, 0.95);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(157, 0, 255, 0.3); /* Borda roxa sutil */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    
+    margin-bottom: 2rem;
+}
+
+/* O Select (Tipo) */
+.select-wrapper {
+    min-width: 120px;
+}
+
+.custom-select {
+    width: 100%;
+    padding: 12px;
+    background-color: #090014; /* Fundo quase preto */
+    border: 1px solid #2d2d44;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.custom-select:focus {
+    border-color: #00F3FF; /* Ciano ao focar */
+}
+
+/* O Input de Texto */
+.search-input {
+    flex-grow: 1; /* Faz o input ocupar todo o espaço sobrando */
+    padding: 12px 16px;
+    background-color: #090014;
+    border: 1px solid #2d2d44;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #00F3FF; /* Ciano */
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); /* Glow */
+}
+
+/* Placeholder (texto de dica) */
+.search-input::placeholder {
+    color: #666;
+}
+
+/* O Botão Neon */
+.btn-neon {
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Gradiente Roxo -> Rosa */
+    background: linear-gradient(45deg, #9D00FF, #FF0099);
+    box-shadow: 0 4px 15px rgba(157, 0, 255, 0.3);
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.btn-neon:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2); /* Fica mais brilhante */
+}
+
+/* --- Área de Resultados (Grid) --- */
+.results-section {
+    margin-top: 2rem;
+}
+
+/* Texto de Status (Buscando... / Nenhum resultado) */
+.results-section p {
+    text-align: center;
+    color: #a49ebf;
+    font-size: 1.2rem;
+    margin-top: 3rem;
+}
+
+/* O Grid Responsivo */
+.grid-results {
+    display: grid;
+    /* Mágica do CSS Grid: 
+       Cria colunas automaticamente que tenham no mínimo 200px.
+       Se a tela for grande, cabem 5. Se for pequena, cabem 2 ou 1. 
+    */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px;
+    
+    /* Animação de entrada */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsividade para Celular --- */
+@media (max-width: 768px) {
+    .search-bar-container {
+        flex-direction: column; /* Empilha os inputs */
+        align-items: stretch;   /* Estica para a largura total */
+        padding: 1rem;
+    }
+
+    .select-wrapper, .search-input, .btn-neon {
+        width: 100%;
+    }
+    
+    .grid-results {
+        /* No celular, cards menores ou lista */
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+    }
+}
