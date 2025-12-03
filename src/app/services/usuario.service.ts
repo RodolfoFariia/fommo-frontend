@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { UsuarioResponse } from "../models/auth.model";
-import { UsuarioUpdateRequest } from "../models/usuario.model";
+import { SenhaUpdateRequest, UsuarioUpdateRequest } from "../models/usuario.model";
 
 @Injectable({
     providedIn: 'root'
@@ -24,5 +24,9 @@ export class UsuarioService{
 
     deleteMe(): Observable<void>{
         return this.http.delete<void>(`${this.api_url}/me`);
+    }
+
+    changePassword(dados: SenhaUpdateRequest): Observable<void>{
+        return this.http.patch<void>(`${this.api_url}/me/password`,dados);
     }
 }

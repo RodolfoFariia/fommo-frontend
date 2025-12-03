@@ -4,3 +4,8 @@ export interface UsuarioUpdateRequest {
   dataNascimento?: string; // Formato 'YYYY-MM-DD'
   senha?: string;
 }
+
+export interface SenhaUpdateRequest{
+  senha_antiga: string;
+  senha_nova: string;
+}

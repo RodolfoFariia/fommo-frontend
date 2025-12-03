@@ -12,8 +12,11 @@ import { UsuarioService } from '../../services/usuario.service';
 export class User  implements OnInit{
 
   userForm: FormGroup;
+  passwordForm: FormGroup;
+
   isEditing = signal(false);
   isLoading = signal(false);
+  changingPassword = signal(false);
 
   constructor(
     private fb: FormBuilder,
@@ -25,6 +28,13 @@ export class User  implements OnInit{
         nome: ['', Validators.required],
         email: ['', [Validators.required,Validators.email]],
         dataNascimento: ['', Validators.required],
+      }
+    );
+
+    this.passwordForm = this.fb.group(
+      {
+        senha_antiga: ['', [Validators.required, Validators.minLength(1)]], // adicionar restante dos requisitos de senha
+        senha_nova: ['', [Validators.required, Validators.minLength(1)]]
       }
     );
 
@@ -85,6 +95,37 @@ export class User  implements OnInit{
         localStorage.clear();
         this.router.navigate(['/login']);
       });
+    }
+  }
+
+  setChangePassword(){
+    this.changingPassword.set(true);
+  }
+
+  closePasswordModal(){
+    this.changingPassword.set(false);
+    this.passwordForm.reset();
+  }
+
+  changePassword(){
+    // validação do forms antes de enviar
+    if(!this.passwordForm.valid){
+      alert("Preencha os campos corretamente!");
+      return;
+    }
+
+
+    if(confirm("Tem certeza? A ação de alterar sua senha, não poderá ser desfeita.")){
+      this.userService.changePassword(this.passwordForm.value).subscribe({
+        next: () => {
+          alert("Senha alterada com sucesso!");
+          this.changingPassword.set(false);
+          this.passwordForm.reset();
+        },
+        error: (err) => {
+          alert("Erro ao alterar a senha.");
+        }
+      })
     }
   }
 }
