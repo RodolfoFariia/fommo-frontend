@@ -1,41 +1,59 @@
-// Definindo o que enviamos ao back para requisitar dados do spotify
-export interface SearchQuery{
+export interface SearchQuery {
     q: string;
     type: string;
 }
 
-export interface SpotifyResponse{
+export interface SpotifyResponse {
     albums: Albums;
     artists: Artists;
     tracks: Tracks;
 }
 
-export interface Artists{
+// --- Wrappers das Listas ---
+export interface Albums {
+    items: Item[]; 
+}
+
+export interface Artists {
     items: Item[];
 }
 
-export interface Tracks{
+export interface Tracks {
     items: Item[];
 }
 
-export interface Albums{
-    items: Item[];
-}
-
-export interface Item{
+// --- O Item Genérico (Serve para Album, Artista e Musica) ---
+export interface Item {
     id: string;
     name: string;
-    images: Imagem[];
-    album: Album;
+    
+    // O Spotify manda "images", não "imagens"
+    images: Imagem[]; 
+    
+    // --- Campos específicos de MÚSICA (Track) ---
+    album?: AlbumObj; // Música tem um álbum associado
+    
+    // --- Campos específicos de ÁLBUM ---
+    // Usamos '?' porque Artistas e Músicas não têm esses campos
+    release_date?: string;   // Data de lançamento
+    total_tracks?: number;   // Total de faixas
+    artists?: ArtistObj[];   // Lista de artistas do álbum
 }
 
-export interface Imagem{
+export interface Imagem {
     url: string;
-    height: string;
-    width: string;
+    height: number;
+    width: number;
 }
 
-// somente para coletar a capa do album 
-export interface Album{
+// Objeto simples para o Álbum que vem dentro da Música
+export interface AlbumObj {
     images: Imagem[];
+    name: string;
+}
+
+// Objeto simples para Artista (dentro do Álbum)
+export interface ArtistObj {
+    name: string;
+    id: string;
 }

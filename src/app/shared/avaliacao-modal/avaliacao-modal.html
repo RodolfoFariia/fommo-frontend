@@ -1,0 +1,111 @@
+<div class="modal-overlay" (click)="fecharModalTotal()">
+
+    <div class="modal-content" (click)="$event.stopPropagation()"> 
+        
+        <button class="btn-close-x" (click)="fecharModalTotal()">×</button>
+
+        <div class="item-content">
+            <img [src]="item().imageUrl" alt="Capa do Álbum/Música">
+
+            <p class="title">{{ item().title }}</p>
+            
+            @if (item().subtitle) {
+                <p class="subtitle">{{ item().subtitle }}</p>
+            }
+
+            @if (item().albumData; as data) { 
+                <div class="meta-info">
+                    <p class="info-row">Lançamento: <span>{{ data.releaseDate }}</span></p>
+                    <p class="info-row">Faixas: <span>{{ data.totalTracks }}</span></p>
+                
+                    <div class="info-block">
+                        <span class="label">Artistas:</span>
+                        <div class="tags">
+                            @for (art of data.artistNames; track $index) {
+                                <span class="artist-tag">{{ art }}</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (item().trackData; as data) {
+                <div class="meta-info">
+                    <p class="info-row">Álbum: <span>{{ data.albumName }}</span></p>
+
+                    <div class="info-block">
+                        <span class="label">Artistas:</span>
+                        <div class="tags">
+                            @for (art of data.artistNames; track $index) {
+                                <span class="artist-tag">{{ art }}</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            
+        </div>
+
+        <div class="avaliacoes-cadastro">
+            
+            @if (!isCreating()) {
+                <div class="avaliacoes-view">
+                    <div class="header-reviews">
+                        <h3>Avaliações da Comunidade</h3>
+                        <button class="btn-new-review" (click)="isCreating.set(true)">
+                            + Avaliar
+                        </button>
+                    </div>
+
+                    <div class="reviews-scroll">
+                        @for (review of reviews(); track review.idAvaliacao) {
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <span class="stars">★ {{ review.nota }}</span>
+                                    <span class="review-title">{{ review.titulo }}</span>
+                                </div>
+                                <p class="review-text">{{ review.descricao }}</p>
+                            </div>
+                        } @empty {
+                            <div class="empty-state">
+                                <p>Nenhuma avaliação ainda.</p>
+                                <p>Seja o primeiro a opinar!</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            } 
+            
+            @else {
+                <div class="cadastro-view">
+                    <h3>Nova Avaliação</h3>
+                    
+                    <form [formGroup]="avaliacaoForms">
+                        
+                        <div class="input-group">
+                            <label>Nota (0 a 5)</label>
+                            <input type="number" formControlName="nota" min="0" max="5" placeholder="5">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Título</label>
+                            <input type="text" formControlName="titulo" placeholder="Ex: Clássico instantâneo!">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Sua Opinião</label>
+                            <textarea formControlName="textoAvaliacao" rows="4" placeholder="O que você achou?"></textarea>
+                        </div>
+
+                    </form>
+
+                    <div class="form-actions">
+                        <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+                        <button class="btn-save" (click)="cadastrar()" [disabled]="avaliacaoForms.invalid">Enviar Avaliação</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

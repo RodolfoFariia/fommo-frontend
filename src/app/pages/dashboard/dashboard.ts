@@ -4,10 +4,11 @@ import { SearchQuery, SpotifyResponse } from '../../models/dashboard.model';
 import { Spotify } from '../../services/spotify';
 import { MusicCard } from '../../shared/music-card/music-card';
 import { CardItem } from '../../models/music-card.model';
+import { AvaliacaoModal } from '../../shared/avaliacao-modal/avaliacao-modal';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ReactiveFormsModule, MusicCard],
+  imports: [ReactiveFormsModule, MusicCard, AvaliacaoModal],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -18,6 +19,10 @@ export class Dashboard {
   searching = signal(false);
   results = signal<SpotifyResponse | null>(null);
   hasSearched = signal(false);
+
+
+  // signal que controla o modal
+  selectedItem = signal<CardItem | null>(null);
 
   searchTypes = [
     {label: "Álbum", value: "album"},
@@ -59,42 +64,73 @@ export class Dashboard {
 
 
   // sinal que ao acionado transforma o resultado do spotify em CardItems adequados
+  // O Mapeamento Inteligente
   displayItems = computed<CardItem[]>(() => {
     const rawData = this.results();
+    if (!rawData) return [];
 
-    if(!rawData) return []; // caso não tenha recebido resultado algum, retorna lista vazia
-
-    if(rawData.albums){
-      return rawData.albums.items.map(album =>({
+    // 1. Mapeamento de ÁLBUNS
+    if (rawData.albums) {
+      return rawData.albums.items.map(album => ({
         id: album.id,
-        imageUrl: album.images[0].url,
+        imageUrl: album.images?.[0]?.url || 'assets/images/default.png',
         title: album.name,
-        subtitle: "Álbum",
-        type: 'ALBUM'
+        subtitle: 'Álbum',
+        type: 'ALBUM',
+        externalUrl: `https://open.spotify.com/album/${album.id}`, // Link direto
+        
+        // Preenchendo os detalhes extras para o Modal
+        albumData: {
+          releaseDate: album.release_date || 'Desconhecido',
+          totalTracks: album.total_tracks || 0,
+          // Mapeia a lista de artistas para um array de strings
+          artistNames: album.artists?.map(a => a.name) || []
+        }
       }));
-    }
-
-    else if (rawData.artists){
-      return rawData.artists.items.map(artist =>({
+    } 
+    
+    // 2. Mapeamento de ARTISTAS
+    else if (rawData.artists) {
+      return rawData.artists.items.map(artist => ({
         id: artist.id,
-        imageUrl: artist.images?.[0]?.url,
+        imageUrl: artist.images?.[0]?.url || 'assets/images/default.png',
         title: artist.name,
-        subtitle: "Artista",
-        type: 'ARTISTA'
+        subtitle: 'Artista',
+        type: 'ARTISTA',
+        externalUrl: `https://open.spotify.com/artist/${artist.id}`
+        // Artista não tem dados extras por enquanto
       }));
     }
-
-     else if (rawData.tracks){
-      return rawData.tracks.items.map(track =>({
+    
+    // 3. Mapeamento de MÚSICAS (Tracks)
+    else if (rawData.tracks) {
+      return rawData.tracks.items.map(track => ({
         id: track.id,
-        imageUrl: track.album.images?.[0]?.url,
+        imageUrl: track.album?.images?.[0]?.url || 'assets/images/default.png',
         title: track.name,
-        subtitle: 'Música',
-        type: 'MUSICA'
+        subtitle: track.artists?.[0]?.name, // Mostra o artista principal
+        type: 'MUSICA',
+
+        // Preenchendo os detalhes extras
+        trackData: {
+          albumName: track.album?.name || 'Desconhecido',
+          artistNames: track.artists?.map(a => a.name) || []
+        }
       }));
     }
 
     return [];
-  })
+  });
+
+
+  // função para abrir o modal
+  openModal(item: CardItem){
+    this.selectedItem.set(item);
+  }
+
+  // função para fechar o modal
+  closeModal(){
+    this.selectedItem.set(null);
+  }
 
 }

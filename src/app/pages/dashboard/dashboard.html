@@ -32,7 +32,7 @@
         @else {
             <div class="grid-results">
                 @for (item of displayItems(); track item.id){
-                    <app-music-card [data]="item"></app-music-card>
+                    <app-music-card [data]="item" (click)="openModal(item)"></app-music-card>
                 }
             </div>
 
@@ -44,3 +44,9 @@
 </div>
 
 </div>
+
+@if (selectedItem()) {
+    <app-avaliacao-modal 
+        [item]="selectedItem()!" 
+        (close)="closeModal()"> </app-avaliacao-modal>
+}
