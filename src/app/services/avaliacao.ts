@@ -21,5 +21,9 @@ export class Avaliacao {
   cadastrarAvaliacao(data: AvaliacaoRequest): Observable<AvaliacaoResponse>{
     return this.http.post<AvaliacaoResponse>(`${this.api_url}`,data);
   }
+
+  getByUsuario(): Observable<AvaliacaoResponse[]>{
+    return this.http.get<AvaliacaoResponse[]> (`${this.api_url}/me`)
+  }
   
 }

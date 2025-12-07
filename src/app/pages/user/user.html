@@ -51,7 +51,14 @@
     </div>
 
     <div class="avaliacoes-container">
-        <p>Listar todas as Avaliacoes do usuario</p>
+        @if (loadingAvaliacoes()){
+            <p>Carregando Avaliacoes...</p>
+        }
+
+        @else{
+            
+        }
+
 
     </div>
 </div>

@@ -37,7 +37,7 @@ export class AvaliacaoModal  implements OnInit{
       textoAvaliacao: ['', [Validators.required, Validators.maxLength(200)]]
     });
 
-  }
+  }  
 
   // Inicialização, para ir no banco buscar as reviews que possuam o msm id do spotify
   ngOnInit(): void {
@@ -46,6 +46,7 @@ export class AvaliacaoModal  implements OnInit{
 
   carregarAvaliacoes(){
     const spotifyId = this.item().id;
+    console.log(spotifyId);
 
     this.service.findByIdSpotify(spotifyId).subscribe({
       next: (response) => {

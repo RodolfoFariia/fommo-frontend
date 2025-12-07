@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
+import { Avaliacao } from '../../services/avaliacao';
 
 @Component({
   selector: 'app-user',
@@ -18,9 +19,13 @@ export class User  implements OnInit{
   isLoading = signal(false);
   changingPassword = signal(false);
 
+  loadingAvaliacoes = signal(false);
+  id_user = signal(1);
+
   constructor(
     private fb: FormBuilder,
     private userService: UsuarioService,
+    private avaliacaoService: Avaliacao,
     private router: Router
   ){
     this.userForm = this.fb.group(
@@ -42,13 +47,31 @@ export class User  implements OnInit{
   }
 
   ngOnInit(){
+    // busca informações do usuário
     this.loadUserData();
+
+    // busca avaliações feitas pelo usuário
+    this.loadAvaliacoes();
+
+  }
+
+  loadAvaliacoes(){
+    this.loadingAvaliacoes.set(true);
+    console.log(this.id_user())
+
+    this.avaliacaoService.getByUsuario().subscribe(response => {
+      this.loadingAvaliacoes.set(false);
+      console.log(response);
+    });
   }
 
   loadUserData(){
     this.userService.getMe().subscribe(user => {
       // preenche o formulário com os dados do backend
       console.log(user.data_nascimento);
+
+      this.id_user.set(user.idUsuario);
+
       this.userForm.patchValue({
         nome: user.nome,
         email: user.email,
