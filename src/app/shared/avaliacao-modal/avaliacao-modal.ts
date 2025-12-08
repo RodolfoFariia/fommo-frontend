@@ -98,7 +98,7 @@ export class AvaliacaoModal  implements OnInit{
 
     this.service.cadastrarAvaliacao(data).subscribe({
       next: () => {
-        this.isLoading.set(false);
+        this.isCreating.set(false);
         alert("Avaliação Cadastrada com Sucesso!");
       },
       error: (err) => {
