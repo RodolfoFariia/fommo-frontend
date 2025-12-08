@@ -5,10 +5,13 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Avaliacao } from '../../services/avaliacao';
 import { AvaliacaoCard } from '../../shared/avaliacao-card/avaliacao-card';
 import { AvaliacaoResponse } from '../../models/avaliacao.model';
+import { Album, Artist, Track } from '../../models/avalicao-card.model';
+import { EditEvent } from '../../models/usuario.model';
+import { EdicaoModal } from '../../shared/edicao-modal/edicao-modal';
 
 @Component({
   selector: 'app-user',
-  imports: [ReactiveFormsModule,AvaliacaoCard],
+  imports: [ReactiveFormsModule,AvaliacaoCard,EdicaoModal],
   templateUrl: './user.html',
   styleUrl: './user.css',
 })
@@ -24,6 +27,8 @@ export class User  implements OnInit{
   avaliacoesResponse = signal<AvaliacaoResponse[] | null> (null);
   loadingAvaliacoes = signal(false);
   id_user = signal(1);
+
+  dataEdit = signal<EditEvent | null>(null);
 
   constructor(
     private fb: FormBuilder,
@@ -156,4 +161,24 @@ export class User  implements OnInit{
       })
     }
   }
+
+  
+
+
+
+  openModalAvaliacao(data: EditEvent){
+    //console.log("Clicou na avaliacao");
+
+    this.dataEdit.set(data);
+
+    console.log(this.dataEdit())
+
+
+  }
+
+
+  closeModalAvaliacao() {
+    this.dataEdit.set(null);
+  }
 }
+

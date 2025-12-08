@@ -1,0 +1,157 @@
+<div class="modal-overlay" (click)="fecharModal()">
+
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        
+        <button class="btn-close-x" (click)="fecharModal()">×</button>
+
+        <div class="item-content">
+            
+            @if(dataEdit().avaliacao.tipo_item === 'track'){
+                <div class="image-wrapper">
+                    <img [src]="$any(dataEdit().spotifyItem).album?.images?.[0]?.url || 'assets/default.png'" 
+                         alt="Capa do Álbum" class="fade-in">
+                </div>
+                
+                <h3 class="title">{{ $any(dataEdit().spotifyItem).name }}</h3>
+                
+                <div class="artists-list">
+                    @for(artist of $any(dataEdit().spotifyItem).artists; track $index) {
+                        <a [href]="artist.uri" class="spotify-link">{{ artist.name }}</a>
+                        @if(!$last) { <span>, </span> }
+                    }
+                </div>
+
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <label>Duração</label>
+                        <span>{{ $any(dataEdit().spotifyItem).duration_ms | date:'mm:ss' }}</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <label>Lançamento</label>
+                        <span>{{ $any(dataEdit().spotifyItem).album.release_date | date:'dd/MM/yyyy' }}</span>
+                    </div>
+
+                    <div class="meta-item full-width">
+                        <label>Álbum</label>
+                        <span>{{ $any(dataEdit().spotifyItem).album.name }} ({{ $any(dataEdit().spotifyItem).album.total_tracks }} faixas)</span>
+                    </div>
+                </div>
+
+                <div class="popularity-container">
+                    <label>Popularidade da Música</label>
+                    <div class="progress-bar">
+                        <div class="progress-fill" [style.width.%]="$any(dataEdit().spotifyItem).popularity"></div>
+                    </div>
+                    <span class="pop-value">{{ $any(dataEdit().spotifyItem).popularity }}%</span>
+                </div>
+                
+                <span class="type-badge">Música</span>
+            }
+
+
+            @if(dataEdit().avaliacao.tipo_item === 'album'){
+                <div class="image-wrapper">
+                    <img [src]="$any(dataEdit().spotifyItem).images?.[0]?.url || 'assets/default.png'" 
+                         alt="Capa do Álbum" class="fade-in">
+                </div>
+
+                <h3 class="title">{{ $any(dataEdit().spotifyItem).name }}</h3>
+                
+                <a [href]="$any(dataEdit().spotifyItem).artists?.uri" class="spotify-link subtitle-link">
+                    {{ $any(dataEdit().spotifyItem).artists?.name }}
+                </a>
+
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <label>Lançamento</label>
+                        <span>{{ $any(dataEdit().spotifyItem).release_date | date:'dd/MM/yyyy' }}</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <label>Faixas</label>
+                        <span>{{ $any(dataEdit().spotifyItem).total_tracks }}</span>
+                    </div>
+                </div>
+
+                <div class="popularity-container">
+                    <label>Popularidade do Álbum</label>
+                    <div class="progress-bar">
+                        <div class="progress-fill" [style.width.%]="$any(dataEdit().spotifyItem).popularity"></div>
+                    </div>
+                    <span class="pop-value">{{ $any(dataEdit().spotifyItem).popularity }}%</span>
+                </div>
+
+                <span class="type-badge">Álbum</span>
+            }
+
+
+            @if(dataEdit().avaliacao.tipo_item === 'artist'){
+                <div class="image-wrapper artist-wrapper">
+                    <img [src]="$any(dataEdit().spotifyItem).images?.[0]?.url || 'assets/default.png'" 
+                         alt="Foto do Artista" class="fade-in">
+                </div>
+
+                <h3 class="title">{{ $any(dataEdit().spotifyItem).name }}</h3>
+                
+                @if($any(dataEdit().spotifyItem).followers; as follow){
+                    <p class="subtitle">{{ follow.total | number }} seguidores</p>
+                }
+
+                <div class="genres-container">
+                    @for(genre of $any(dataEdit().spotifyItem).genres; track $index) {
+                        <span class="genre-tag">{{ genre }}</span>
+                    }
+                </div>
+
+                <div class="popularity-container mt-auto">
+                    <label>Popularidade Global</label>
+                    <div class="progress-bar">
+                        <div class="progress-fill" [style.width.%]="$any(dataEdit().spotifyItem).popularity"></div>
+                    </div>
+                    <span class="pop-value">{{ $any(dataEdit().spotifyItem).popularity }}%</span>
+                </div>
+
+                <span class="type-badge">Artista</span>
+            }
+
+        </div>
+
+        <div class="avaliacao-edit">
+            <h2 class="edit-title">Gerenciar Avaliação</h2>
+
+            <form [formGroup]="avaliacaoForm" class="avaliacao-form">
+                
+                <div class="input">
+                    <label>Nota (0 a 5)</label>
+                    <div class="nota-input-wrapper">
+                        <input type="number" formControlName="nota" min="0" max="5" placeholder="5">
+                        <span class="star-icon">★</span>
+                    </div>
+                </div>
+
+                <div class="input">
+                    <label>Título</label>
+                    <input type="text" formControlName="titulo">
+                </div>
+
+                <div class="input">
+                    <label>Sua Opinião</label>
+                    <textarea formControlName="textoAvaliacao" rows="6"></textarea>
+                </div>
+
+                <div class="options">
+                    @if(!isEditing()){
+                        <button type="button" class="btn-edit" (click)="toggleEdit()">Editar Dados</button>
+                        <button type="button" class="btn-delete" (click)="deleteAvaliacao()">Apagar</button>
+                    }
+                    @else {
+                        <button type="button" class="btn-save" (click)="saveChanges()" [disabled]="avaliacaoForm.invalid">Salvar</button>
+                        <button type="button" class="btn-cancel" (click)="toggleEdit()">Cancelar</button>
+                    }
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

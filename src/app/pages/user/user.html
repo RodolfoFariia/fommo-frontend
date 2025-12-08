@@ -57,7 +57,7 @@
 
         @else{
             @for (item of avaliacoesResponse(); track item.id_avaliacao){
-                <app-avaliacao-card [avaliacao]="item"></app-avaliacao-card>
+                <app-avaliacao-card [avaliacao]="item" (editar)="openModalAvaliacao($event)"></app-avaliacao-card>
             }
         }
 
@@ -83,4 +83,10 @@
             </form>
         </div>
     </div>
+}
+
+
+
+@if(dataEdit() ; as data){
+    <app-edicao-modal [dataEdit]="data"></app-edicao-modal>
 }

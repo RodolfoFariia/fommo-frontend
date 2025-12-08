@@ -32,7 +32,7 @@ export class AvaliacaoModal  implements OnInit{
 
 
     this.avaliacaoForms = this.fb.group({
-      nota: ['',[Validators.required, Validators.max(5)]],
+      nota: ['',[Validators.required, Validators.max(5),Validators.min(1)]],
       titulo: ['', [Validators.required, Validators.maxLength(20)]],
       textoAvaliacao: ['', [Validators.required, Validators.maxLength(200)]]
     });
@@ -59,7 +59,7 @@ export class AvaliacaoModal  implements OnInit{
         this.isLoading.set(false);
         console.error(err);
       }
-    })
+    });
   }
 
   cancelar(){

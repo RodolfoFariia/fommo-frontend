@@ -48,7 +48,7 @@ export class Auth {
         console.error("Erro ao buscar perfil", err);
         if (err.status === 403) this.logout();
       } 
-    })
+    });
 
   }
 }

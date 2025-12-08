@@ -1,8 +1,9 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import { Component, input, OnInit, output, signal } from '@angular/core';
 import { Album, Artist, Track } from '../../models/avalicao-card.model';
 import { AvaliacaoResponse } from '../../models/avaliacao.model';
 import { Spotify } from '../../services/spotify';
 import { CommonModule } from '@angular/common';
+import { EditEvent } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-avaliacao-card',
@@ -17,6 +18,9 @@ export class AvaliacaoCard  implements OnInit{
 
   spotifyDetails = signal<Artist | Album | Track | null>(null);
   isLoading = signal(true);
+
+  
+  editar = output<EditEvent>();
 
 
   constructor(private spotifyService: Spotify){
@@ -58,6 +62,19 @@ export class AvaliacaoCard  implements OnInit{
         console.error(err);
       }
     });
+  }
+
+
+  // método que vai ser acionado quando o card for clicado 
+  clickCard(){
+    const details = this.spotifyDetails();
+
+    if(details){
+      this.editar.emit({
+        avaliacao: this.avaliacao(),
+        spotifyItem: details
+      })
+    }
   }
 
 }
