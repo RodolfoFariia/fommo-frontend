@@ -76,7 +76,7 @@ export class Dashboard {
         imageUrl: album.images?.[0]?.url || 'assets/images/default.png',
         title: album.name,
         subtitle: 'Álbum',
-        type: 'ALBUM',
+        type: 'album',
         externalUrl: `https://open.spotify.com/album/${album.id}`, // Link direto
         
         // Preenchendo os detalhes extras para o Modal
@@ -96,7 +96,7 @@ export class Dashboard {
         imageUrl: artist.images?.[0]?.url || 'assets/images/default.png',
         title: artist.name,
         subtitle: 'Artista',
-        type: 'ARTISTA',
+        type: 'artist',
         externalUrl: `https://open.spotify.com/artist/${artist.id}`
         // Artista não tem dados extras por enquanto
       }));
@@ -109,7 +109,7 @@ export class Dashboard {
         imageUrl: track.album?.images?.[0]?.url || 'assets/images/default.png',
         title: track.name,
         subtitle: track.artists?.[0]?.name, // Mostra o artista principal
-        type: 'MUSICA',
+        type: 'track',
 
         // Preenchendo os detalhes extras
         trackData: {

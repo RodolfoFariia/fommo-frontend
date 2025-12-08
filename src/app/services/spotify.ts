@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { SearchQuery, SpotifyResponse } from '../models/dashboard.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable ,tap} from 'rxjs';
+import { ItemSpotifyResponse } from '../models/avalicao-card.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Spotify {
 
-  private endpoint = "http://localhost:8080";
+  private endpoint = "http://localhost:8080/api/spotify";
 
   constructor(private http: HttpClient){ }
 
@@ -18,7 +19,11 @@ export class Spotify {
 
 
     return this.http.get<SpotifyResponse>(
-      `${this.endpoint}/api/spotify/search`,{params: params});
+      `${this.endpoint}/search`,{params: params});
+  }
+
+  getById(type: String, id: String ):Observable<ItemSpotifyResponse>{
+    return this.http.get<ItemSpotifyResponse>(`${this.endpoint}/${type}/${id}`);
   }
   
 }

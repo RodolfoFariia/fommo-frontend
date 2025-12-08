@@ -1,0 +1,65 @@
+<div class="review-card">
+    
+    <div class="cover-section">
+        @if (isLoading()) {
+            <div class="skeleton-cover"></div>
+        } 
+        @else if (spotifyDetails(); as item) {
+            
+            @if (avaliacao().tipo_item === 'track') {
+                <img [src]="$any(item).album?.images?.[0]?.url || 'assets/default.png'" 
+                     alt="Capa da Música" 
+                     class="fade-in">
+            }
+            @else {
+                <img [src]="$any(item).images?.[0]?.url || 'assets/default.png'" 
+                     alt="Capa do Artista/Álbum" 
+                     class="fade-in">
+            }
+
+        } @else {
+            <div class="no-image"></div>
+        }
+    </div>
+
+    <div class="content-section">
+        
+        <div class="header">
+            @if (isLoading()) {
+                <div class="skeleton-text"></div>
+            } 
+            @else if (spotifyDetails(); as item) {
+                <h4 class="item-title" [title]="item.name">{{ item.name }}</h4>
+            }
+
+            <div class="rating">
+                <span class="star-icon">★</span>
+                <span class="score">{{ avaliacao().nota }}</span>
+            </div>
+        </div>
+
+        <p class="review-title">"{{ avaliacao().titulo }}"</p>
+        <p class="review-text">{{ avaliacao().texto_avaliacao }}</p>
+
+        <div class="meta-footer">
+            <span class="type-badge">{{ avaliacao().tipo_item }}</span>
+            
+            @if (!isLoading() && spotifyDetails(); as item) {
+                
+                @if (avaliacao().tipo_item === 'album') {
+                    <span class="detail-text">{{ $any(item).release_date | slice:0:4 }}</span>
+                    <span class="detail-text">• {{ $any(item).total_tracks }} faixas</span>
+                }
+
+                @if (avaliacao().tipo_item === 'artist') {
+                     <span class="detail-text">Popularidade: {{ item.popularity }}%</span>
+                }
+
+                @if (avaliacao().tipo_item === 'track') {
+                    <span class="detail-text">{{ $any(item).album?.name }}</span>
+                }
+            }
+        </div>
+
+    </div>
+</div>

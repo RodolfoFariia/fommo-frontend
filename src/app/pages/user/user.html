@@ -56,7 +56,9 @@
         }
 
         @else{
-            
+            @for (item of avaliacoesResponse(); track item.id_avaliacao){
+                <app-avaliacao-card [avaliacao]="item"></app-avaliacao-card>
+            }
         }
 
 

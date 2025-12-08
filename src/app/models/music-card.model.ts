@@ -3,7 +3,7 @@ export interface CardItem {
   imageUrl: string;
   title: string;
   subtitle?: string;
-  type: 'ALBUM' | 'ARTISTA' | 'MUSICA';
+  type: 'album' | 'artist' | 'track';
   
 
   // --- DADOS EXTRAS PARA O MODAL ---

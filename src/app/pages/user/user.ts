@@ -3,10 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Avaliacao } from '../../services/avaliacao';
+import { AvaliacaoCard } from '../../shared/avaliacao-card/avaliacao-card';
+import { AvaliacaoResponse } from '../../models/avaliacao.model';
 
 @Component({
   selector: 'app-user',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,AvaliacaoCard],
   templateUrl: './user.html',
   styleUrl: './user.css',
 })
@@ -19,6 +21,7 @@ export class User  implements OnInit{
   isLoading = signal(false);
   changingPassword = signal(false);
 
+  avaliacoesResponse = signal<AvaliacaoResponse[] | null> (null);
   loadingAvaliacoes = signal(false);
   id_user = signal(1);
 
@@ -61,7 +64,9 @@ export class User  implements OnInit{
 
     this.avaliacaoService.getByUsuario().subscribe(response => {
       this.loadingAvaliacoes.set(false);
-      console.log(response);
+
+      this.avaliacoesResponse.set(response);
+      console.log(this.avaliacoesResponse);
     });
   }
 
