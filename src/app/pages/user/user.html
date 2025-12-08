@@ -88,5 +88,5 @@
 
 
 @if(dataEdit() ; as data){
-    <app-edicao-modal [dataEdit]="data"></app-edicao-modal>
+    <app-edicao-modal [dataEdit]="data" (close)="closeModalAvaliacao()" (refresh)="refreshFunction()"></app-edicao-modal>
 }

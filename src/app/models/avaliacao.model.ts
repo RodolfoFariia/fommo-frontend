@@ -14,3 +14,10 @@ export interface AvaliacaoRequest{
     tipo_item: string;
     id_item_externo: string;
 }
+
+
+export interface AvaliacaoUpdate{
+    nota: number;
+    titulo: string;
+    textoAvaliacao: string;
+}

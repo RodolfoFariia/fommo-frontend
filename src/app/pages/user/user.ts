@@ -157,6 +157,7 @@ export class User  implements OnInit{
         },
         error: (err) => {
           alert("Erro ao alterar a senha.");
+          console.error(err);
         }
       })
     }
@@ -179,6 +180,11 @@ export class User  implements OnInit{
 
   closeModalAvaliacao() {
     this.dataEdit.set(null);
+  }
+
+
+  refreshFunction(){
+    this.loadAvaliacoes();
   }
 }
 

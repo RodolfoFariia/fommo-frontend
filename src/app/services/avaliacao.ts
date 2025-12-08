@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AvaliacaoRequest, AvaliacaoResponse } from '../models/avaliacao.model';
+import { AvaliacaoRequest, AvaliacaoResponse, AvaliacaoUpdate } from '../models/avaliacao.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,14 @@ export class Avaliacao {
   }
 
   getByUsuario(): Observable<AvaliacaoResponse[]>{
-    return this.http.get<AvaliacaoResponse[]> (`${this.api_url}/me`)
+    return this.http.get<AvaliacaoResponse[]> (`${this.api_url}/me`);
   }
   
+  updateAvaliacao(data: AvaliacaoUpdate, id: string): Observable<AvaliacaoResponse>{
+    return this.http.put<AvaliacaoResponse> (`${this.api_url}/${id}`,data);
+  }
+
+  deleteAvaliacao(id: string): Observable<void>{
+    return this.http.delete<void>(`${this.api_url}/${id}`);
+  }
 }
