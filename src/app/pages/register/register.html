@@ -1,1 +1,79 @@
-<p>register works!</p>
+<div class="register-container">
+  
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+    
+    <h2>Crie sua conta FOMMO</h2>
+    <p class="subtitle">Será um prazer ter você conosco</p>
+
+    <div class="input-group">
+      <label for="nome">Nome</label>
+      <input 
+        type="text" 
+        id="nome" 
+        formControlName="nome"
+        placeholder="Ex: Phyllipe"
+      >
+    </div>
+
+    <div class="input-group">
+      <label for="data_nascimento">Data de Nascimento</label>
+      <input 
+        type="date" 
+        id="data_nascimento" 
+        formControlName="data_nascimento"
+      >
+    </div>
+
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input 
+        type="email" 
+        id="email" 
+        formControlName="email"
+        placeholder="Ex: seuemail@gmail.com"
+      >
+    </div>
+
+    <div class="input-group">
+      <label for="password">Senha</label>
+      <input 
+        type="password" 
+        id="password" 
+        formControlName="senha"
+        placeholder="••••••••"
+      >
+    </div>
+
+    <div class="input-group">
+      <label for="senha-confirmacao">Confirme sua senha</label>
+      
+      <input 
+        type="password" 
+        id="senha-confirmacao" 
+        formControlName="senha_confirmacao"
+        placeholder="••••••••"
+        [class.input-error]="registerForm.hasError('passwordMismatch') && f['senha_confirmacao'].dirty"
+        [class.input-success]="!registerForm.hasError('passwordMismatch') && f['senha_confirmacao'].dirty && f['senha_confirmacao'].value"
+      >
+
+      @if (registerForm.hasError('passwordMismatch') && f['senha_confirmacao'].dirty) {
+          <span class="field-error">As senhas não coincidem.</span>
+      }
+    </div>
+
+    <button type="submit"  [disabled]="registerForm.invalid">
+        @if (isloading()) {
+            <span>Carregando...</span>
+        } @else {
+            <span>Cadastrar</span>
+        }
+    </button>
+
+        @if (errorMsg()) {
+        <div class="error-alert">
+         {{ errorMsg() }}
+        </div>
+    }
+  
+  </form>
+</div>

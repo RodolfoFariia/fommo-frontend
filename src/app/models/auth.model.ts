@@ -15,3 +15,12 @@ export interface UsuarioResponse {
   email: string;
   data_nascimento: string;
 }
+
+
+// Definindo interfaces que são utilizadas para registro de um perfil
+export interface RegisterDto{
+  nome: string,
+  data_nascimento: string,
+  email: string,
+  senha: string
+}

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { LoginRequest, LoginResponse, UsuarioResponse } from '../models/auth.model';
+import { LoginRequest, LoginResponse, RegisterDto, UsuarioResponse } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +50,11 @@ export class Auth {
       } 
     });
 
+  }
+
+
+  register(data: RegisterDto): Observable<void>{
+    return this.http.post<void>(`${this.endpointServer}/auth/register`, data);
   }
 }
 
