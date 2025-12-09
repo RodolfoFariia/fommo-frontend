@@ -1,0 +1,50 @@
+.toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999; /* Acima de tudo, inclusive modais */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none; /* Deixa clicar no site através da área vazia */
+    }
+
+    .toast {
+      pointer-events: auto; /* Reativa cliques no card */
+      min-width: 300px;
+      padding: 16px;
+      border-radius: 8px;
+      background: rgba(21, 16, 48, 0.95); /* Fundo escuro padrão */
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      
+      animation: slideIn 0.3s ease-out;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Cores Cyberpunk */
+    .toast.success {
+      border-left: 4px solid #00FF99; /* Verde Neon */
+      box-shadow: 0 0 15px rgba(0, 255, 153, 0.1);
+    }
+
+    .toast.error {
+      border-left: 4px solid #FF4B4B; /* Vermelho Neon */
+      box-shadow: 0 0 15px rgba(255, 75, 75, 0.1);
+    }
+
+    .message {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }

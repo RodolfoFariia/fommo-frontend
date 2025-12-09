@@ -1,0 +1,17 @@
+<div class="toast-container">
+      @for (toast of toastService.toasts(); track toast.id) {
+        <div 
+          class="toast" 
+          [class.success]="toast.type === 'success'"
+          [class.error]="toast.type === 'error'"
+          (click)="toastService.remove(toast.id)"> <div class="icon">
+            @if(toast.type === 'success') { ✅ }
+            @else if(toast.type === 'error') { ⚠️ }
+            @else { ℹ️ }
+          </div>
+          
+          <span class="message">{{ toast.message }}</span>
+          
+        </div>
+      }
+</div>
