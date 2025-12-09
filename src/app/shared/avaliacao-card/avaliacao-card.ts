@@ -4,47 +4,40 @@ import { AvaliacaoResponse } from '../../models/avaliacao.model';
 import { Spotify } from '../../services/spotify';
 import { CommonModule } from '@angular/common';
 import { EditEvent } from '../../models/usuario.model';
+import { ToastService } from '../../services/toast.service'; 
 
 @Component({
   selector: 'app-avaliacao-card',
+  standalone: true, 
   imports: [CommonModule],
   templateUrl: './avaliacao-card.html',
   styleUrl: './avaliacao-card.css',
 })
-export class AvaliacaoCard  implements OnInit{
+export class AvaliacaoCard implements OnInit {
   
-
   avaliacao = input.required<AvaliacaoResponse>();
+  editar = output<EditEvent>();
 
   spotifyDetails = signal<Artist | Album | Track | null>(null);
   isLoading = signal(true);
 
-  
-  editar = output<EditEvent>();
-
-
-  constructor(private spotifyService: Spotify){
-
-  }
+  constructor(
+    private spotifyService: Spotify,
+    private toastService: ToastService 
+  ){}
 
   ngOnInit(){
     this.loadSpotifyDetails();
   }
 
   loadSpotifyDetails(){
-    // Pegar o id do item na avaliacao
-    const {
-      id_item_externo,
-      tipo_item
-    } = this.avaliacao();
-
-    console.log("AQUI: "+tipo_item);
+    const { id_item_externo, tipo_item } = this.avaliacao();
 
     this.spotifyService.getById(tipo_item, id_item_externo).subscribe({
       next: (response) => {
         this.isLoading.set(false);
         
-        // Coletando o objeto que veio preenchido
+        
         if(response.album){
           this.spotifyDetails.set(response.album);
         }
@@ -54,18 +47,16 @@ export class AvaliacaoCard  implements OnInit{
         else{
           this.spotifyDetails.set(response.track);
         }
-
-        console.log(this.spotifyDetails);
       },
       error: (err) => {
         this.isLoading.set(false);
         console.error(err);
+        // não tem o toast para caso carregue uma lista grande e a API falhe em todos, não dar spam de erros.
       }
     });
   }
 
-
-  // método que vai ser acionado quando o card for clicado 
+  // Método acionado ao clicar no card
   clickCard(){
     const details = this.spotifyDetails();
 
@@ -73,8 +64,9 @@ export class AvaliacaoCard  implements OnInit{
       this.editar.emit({
         avaliacao: this.avaliacao(),
         spotifyItem: details
-      })
+      });
+    } else {
+      this.toastService.error("Não foi possível carregar os detalhes deste item.");
     }
   }
-
 }

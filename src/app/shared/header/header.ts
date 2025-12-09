@@ -1,9 +1,6 @@
-import { Component , computed, inject, OnInit, Signal, WritableSignal} from '@angular/core';
+import { Component , computed, inject} from '@angular/core';
 import { RouterLink} from '@angular/router';
-import { Observable } from 'rxjs';
 import { Auth } from '../../services/auth';
-import { CommonModule } from '@angular/common';
-import { Logo } from '../logo/logo';
 
 @Component({
   selector: 'app-header',

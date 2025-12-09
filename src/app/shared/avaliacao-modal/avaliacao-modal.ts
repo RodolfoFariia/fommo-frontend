@@ -1,63 +1,60 @@
-import { Component, EventEmitter, input, Input, OnInit, Output, signal } from '@angular/core';
-import { CardItem } from '../../models/music-card.model';
+import { Component, EventEmitter, input, OnInit, Output, signal } from '@angular/core';
+import { CommonModule } from '@angular/common'; 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CardItem } from '../../models/music-card.model';
 import { Avaliacao } from '../../services/avaliacao';
 import { AvaliacaoRequest } from '../../models/avaliacao.model';
+import { ToastService } from '../../services/toast.service'; 
 
 @Component({
   selector: 'app-avaliacao-modal',
-  imports: [ReactiveFormsModule],
+  standalone: true, 
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './avaliacao-modal.html',
   styleUrl: './avaliacao-modal.css',
 })
-export class AvaliacaoModal  implements OnInit{
+export class AvaliacaoModal implements OnInit {
 
-  // construindo um emissor de evendos para saída
   @Output() close = new EventEmitter<void>();
 
-
-  // signal para armazenar as reviewns que vem do banco
   reviews = signal<any[] | null>(null);
-
-  // signal para a tela da direita -> alternar entre reviews e cadastro de avaliações
+  
   isCreating = signal(false);
   isLoading = signal(false);
 
-  // forms para cadastro de avaliação
   avaliacaoForms: FormGroup;
-
   item = input.required<CardItem>();
 
-  constructor( private fb: FormBuilder, private service: Avaliacao){
-
-
+  constructor(
+    private fb: FormBuilder, 
+    private service: Avaliacao,
+    private toastService: ToastService 
+  ){
     this.avaliacaoForms = this.fb.group({
-      nota: ['',[Validators.required, Validators.max(5),Validators.min(1)]],
+      nota: ['', [Validators.required, Validators.max(5), Validators.min(0)]],
       titulo: ['', [Validators.required, Validators.maxLength(20)]],
       textoAvaliacao: ['', [Validators.required, Validators.maxLength(200)]]
     });
-
   }  
 
-  // Inicialização, para ir no banco buscar as reviews que possuam o msm id do spotify
   ngOnInit(): void {
     this.carregarAvaliacoes();
   }
 
   carregarAvaliacoes(){
+    this.isLoading.set(true); 
+    
     const spotifyId = this.item().id;
-    console.log(spotifyId);
 
     this.service.findByIdSpotify(spotifyId).subscribe({
       next: (response) => {
         this.isLoading.set(false);
-
         this.reviews.set(response);
-        console.log(this.reviews);
       },
       error: (err) => {
         this.isLoading.set(false);
         console.error(err);
+        this.toastService.error("Não foi possível carregar as avaliações.");
       }
     });
   }
@@ -76,39 +73,42 @@ export class AvaliacaoModal  implements OnInit{
   }
 
   cadastrar(){
-    // verificar se o form é valido
-    if(this.avaliacaoForms.invalid){
-      return;
-    }
-
-
+    if(this.avaliacaoForms.invalid) return;
 
     this.isLoading.set(true);
 
     const data: AvaliacaoRequest = { 
       titulo: this.avaliacaoForms.value.titulo,
       textoAvaliacao: this.avaliacaoForms.value.textoAvaliacao,
-      nota:this.avaliacaoForms.value.nota,
+      nota: this.avaliacaoForms.value.nota,
       tipo_item: this.item().type,
       id_item_externo: this.item().id
     };
 
-    console.log(data);
-
-
     this.service.cadastrarAvaliacao(data).subscribe({
       next: () => {
-        this.isCreating.set(false);
-        alert("Avaliação Cadastrada com Sucesso!");
+        this.isLoading.set(false); 
+        
+        
+        this.toastService.success("Avaliação publicada com sucesso!");
+        
+        this.avaliacaoForms.reset();
+        this.isCreating.set(false); 
+        
+        
+        this.carregarAvaliacoes(); 
       },
       error: (err) => {
         this.isLoading.set(false);
         console.error(err);
+        
+
+        if (err.status === 403) {
+           this.toastService.error("Sessão expirada. Faça login novamente.");
+        } else {
+           this.toastService.error("Erro ao publicar avaliação.");
+        }
       }
     });
   }
-
-
-  
-
 }

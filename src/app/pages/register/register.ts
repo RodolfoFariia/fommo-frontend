@@ -5,6 +5,7 @@ import { Auth } from '../../services/auth';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,7 @@ export class Register {
 
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private service: Auth, private router: Router){
+  constructor(private fb: FormBuilder, private service: Auth, private router: Router, private toastService: ToastService){
     this.registerForm = this.fb.group({
       nome: ['',Validators.required],
       data_nascimento: ['',Validators.required],
@@ -35,10 +36,10 @@ export class Register {
   }
 
   onSubmit(){
+    this.errorMsg.set("");
     this.isloading.set(true);
     if(this.registerForm.invalid) return;
 
-    // Adicionar validação da confirmação de senha, to pensando em ir corrigindo com o onChange pra ir aparecendo a senha vermelha enquanto forem diferentes
 
     // coletando dados do form e colocando na interface de registro
     const data: RegisterDto = {
@@ -52,7 +53,8 @@ export class Register {
     this.service.register(data).subscribe({
       next: () => {
         // registro deu certo
-        alert("Cadastro realizado com sucesso! Faça seu login");
+        this.toastService.success("Cadastro realizado com sucesso! Faça seu login.");
+
         this.isloading.set(false);
 
         this.router.navigate(["/login"]);
@@ -68,13 +70,18 @@ export class Register {
 
   handleRegisterError(err: HttpErrorResponse){
     if(err.status === 0){
-      this.errorMsg.set("Não foi possível conectar ao servidor.");
-    } else if( err.status === 401 || err.status === 403){
-      this.errorMsg.set("Email ou senha inválidos");
-    } else{
-      this.errorMsg.set("Erro inesperado. Tente novamente");
+       this.toastService.error("Sem conexão.");
+    } 
+    else if(err.status === 409){ 
+      this.errorMsg.set("Este email já possui cadastro. Tente fazer login.");
+    } 
+    else if(err.status === 400 || err.status === 401){
+      this.errorMsg.set("Dados inválidos. Verifique os campos.");
     }
-  }
+    else{
+      this.toastService.error("Erro inesperado.");
+    }
+  } 
 
 
   get f() { return this.registerForm.controls;} 

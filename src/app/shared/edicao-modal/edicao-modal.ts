@@ -4,40 +4,37 @@ import { EditEvent } from '../../models/usuario.model';
 import { CommonModule } from '@angular/common';
 import { Avaliacao } from '../../services/avaliacao';
 import { AvaliacaoUpdate } from '../../models/avaliacao.model';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-edicao-modal',
-  imports: [ReactiveFormsModule,CommonModule],
+  standalone: true, 
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './edicao-modal.html',
   styleUrl: './edicao-modal.css',
 })
 export class EdicaoModal implements OnInit {
 
-  // construindo um emissor de evendos para saída
+
   @Output() close = new EventEmitter<void>();
-
-  // construindo um emissor de eventos para atualizar o pai que precisa atualizar 
-  // as avaliações da tela
   @Output() refresh = new EventEmitter<void>();
-
+  
   dataEdit = input.required<EditEvent>();
 
   avaliacaoForm: FormGroup;
-
   isEditing = signal(false);
   isLoading = signal(false);
 
   constructor(
     private fb: FormBuilder,
-    private avaliacaoService: Avaliacao
+    private avaliacaoService: Avaliacao,
+    private toastService: ToastService 
   ){
-    this.avaliacaoForm = this.fb.group(
-      {
-        nota: ['',[Validators.required,Validators.max(5),Validators.min(1)]],
-        titulo: ['', [Validators.required, Validators.maxLength(20)]],
-        textoAvaliacao: ['', [Validators.required, Validators.maxLength(200)]]
-      }
-    );
+    this.avaliacaoForm = this.fb.group({
+      nota: ['', [Validators.required, Validators.max(5), Validators.min(0)]],
+      titulo: ['', [Validators.required, Validators.maxLength(20)]],
+      textoAvaliacao: ['', [Validators.required, Validators.maxLength(200)]]
+    });
 
     this.avaliacaoForm.disable();
   }
@@ -49,7 +46,6 @@ export class EdicaoModal implements OnInit {
   refreshFunction(){
     this.refresh.emit();
   }
-
 
   loadAvaliacaoData(){
     this.avaliacaoForm.patchValue({
@@ -67,26 +63,31 @@ export class EdicaoModal implements OnInit {
     if(this.isEditing()){
       this.isEditing.set(false);
       this.avaliacaoForm.disable();
-      this.loadAvaliacaoData();
+      this.loadAvaliacaoData(); 
     } else{
       this.isEditing.set(true);
       this.avaliacaoForm.enable();
     }
-    
   }
 
   deleteAvaliacao(){
     if(confirm("Tem certeza? Essa ação não pode ser desfeita e apagará a avaliação!")){
-      this.avaliacaoService.deleteAvaliacao(this.dataEdit().avaliacao.id_avaliacao).subscribe(() => {
-        this.refreshFunction();
-        this.fecharModal();
+      
+      this.avaliacaoService.deleteAvaliacao(this.dataEdit().avaliacao.id_avaliacao).subscribe({
+        next: () => {
+          this.toastService.success("Avaliação excluída com sucesso.");
+          this.refreshFunction();
+          this.fecharModal();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.error("Erro ao excluir avaliação. Tente novamente.");
+        }
       });
     }
   }
 
   saveChanges(){
-
-    // verificar se o modal é valido, lançar um erro dps
     if (this.avaliacaoForm.invalid) return;
 
     this.isLoading.set(true);
@@ -100,21 +101,26 @@ export class EdicaoModal implements OnInit {
     this.avaliacaoService.updateAvaliacao(
       data, this.dataEdit().avaliacao.id_avaliacao).subscribe({
         next: () => {
-          alert("Avaliação atualizada com sucesso!");
+          this.isLoading.set(false); 
+          
+          this.toastService.success("Avaliação atualizada com sucesso!");
+          
           this.isEditing.set(false);
           this.avaliacaoForm.reset();
-
-          // recarregando dados da avaliação para garantir que apareça os dados atualizados
-          this.fecharModal();
-          this.refreshFunction();
+          
+          this.refreshFunction(); 
+          this.fecharModal();     
         },
         error: (err) => {
-          this.isEditing.set(false);
-          alert("Erro ao atualizar avaliação");
+          this.isLoading.set(false);
           console.error(err);
+          
+          if (err.status === 403) {
+             this.toastService.error("Sessão expirada. Faça login novamente.");
+          } else {
+             this.toastService.error("Erro ao salvar. Tente novamente.");
+          }
         }
       });
-
   }
-
 }

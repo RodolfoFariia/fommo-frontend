@@ -8,6 +8,7 @@ import { AvaliacaoResponse } from '../../models/avaliacao.model';
 import { Album, Artist, Track } from '../../models/avalicao-card.model';
 import { EditEvent } from '../../models/usuario.model';
 import { EdicaoModal } from '../../shared/edicao-modal/edicao-modal';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-user',
@@ -34,7 +35,8 @@ export class User  implements OnInit{
     private fb: FormBuilder,
     private userService: UsuarioService,
     private avaliacaoService: Avaliacao,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ){
     this.userForm = this.fb.group(
       {
@@ -63,30 +65,39 @@ export class User  implements OnInit{
 
   }
 
-  loadAvaliacoes(){
+  loadAvaliacoes() {
     this.loadingAvaliacoes.set(true);
-    console.log(this.id_user())
 
-    this.avaliacaoService.getByUsuario().subscribe(response => {
-      this.loadingAvaliacoes.set(false);
-
-      this.avaliacoesResponse.set(response);
-      console.log(this.avaliacoesResponse);
+    this.avaliacaoService.getByUsuario().subscribe({
+      next: (response) => {
+        this.loadingAvaliacoes.set(false);
+        this.avaliacoesResponse.set(response);
+      },
+      error: (err) => {
+        this.loadingAvaliacoes.set(false);
+        console.error(err);
+        this.toastService.error("Não foi possível carregar suas avaliações.");
+      }
     });
   }
 
-  loadUserData(){
-    this.userService.getMe().subscribe(user => {
-      // preenche o formulário com os dados do backend
-      console.log(user.data_nascimento);
-
-      this.id_user.set(user.idUsuario);
-
-      this.userForm.patchValue({
-        nome: user.nome,
-        email: user.email,
-        dataNascimento: user.data_nascimento // Formato YYYY-MM-DD funciona direto no input date
-      });
+  loadUserData() {
+    this.userService.getMe().subscribe({
+      next: (user) => {
+        this.id_user.set(user.idUsuario);
+        
+        this.userForm.patchValue({
+          nome: user.nome,
+          email: user.email,
+          dataNascimento: user.data_nascimento
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        // Se falhar ao carregar o usuário, provavelmente o token morreu
+        this.toastService.error("Erro ao carregar perfil. Faça login novamente.");
+        this.router.navigate(['/login']);
+      }
     });
   }
 
@@ -106,27 +117,38 @@ export class User  implements OnInit{
     if (this.userForm.invalid) return;
 
     this.isLoading.set(true);
+    
     this.userService.updateMe(this.userForm.value).subscribe({
       next: () => {
         this.isLoading.set(false);
         this.isEditing.set(false);
         this.userForm.disable();
-        alert('Perfil atualizado com sucesso!');
+        this.toastService.success('Perfil atualizado com sucesso!');
       },
       error: (err) => {
         this.isLoading.set(false);
         console.error(err);
-        alert('Erro ao atualizar.');
+        if (err.status === 409) {
+           this.toastService.error('Este email já está em uso.');
+        } else {
+           this.toastService.error('Erro ao atualizar perfil. Tente novamente.');
+        }
       }
     });
   }
 
   deleteAccount() {
     if(confirm("Tem certeza? Essa ação não pode ser desfeita e apagará todas as suas avaliações.")) {
-      this.userService.deleteMe().subscribe(() => {
-        // Logout forçado
-        localStorage.clear();
-        this.router.navigate(['/login']);
+      this.userService.deleteMe().subscribe({
+        next: () => {
+          this.toastService.success("Sua conta foi excluída. Sentiremos saudades!");
+          localStorage.clear();
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.error("Não foi possível excluir a conta. Tente novamente.");
+        }
       });
     }
   }
@@ -140,32 +162,31 @@ export class User  implements OnInit{
     this.passwordForm.reset();
   }
 
-  changePassword(){
-    // validação do forms antes de enviar
-    if(!this.passwordForm.valid){
-      alert("Preencha os campos corretamente!");
+  changePassword() {
+    if (!this.passwordForm.valid) {
+      this.toastService.error("A senha deve ter no mínimo 4 caracteres.");
       return;
     }
 
-
-    if(confirm("Tem certeza? A ação de alterar sua senha, não poderá ser desfeita.")){
+    if (confirm("Tem certeza? A ação de alterar sua senha não poderá ser desfeita.")) {
       this.userService.changePassword(this.passwordForm.value).subscribe({
         next: () => {
-          alert("Senha alterada com sucesso!");
-          this.changingPassword.set(false);
-          this.passwordForm.reset();
+          this.toastService.success("Senha alterada com sucesso!");
+          this.closePasswordModal();
         },
         error: (err) => {
-          alert("Erro ao alterar a senha.");
           console.error(err);
+          
+          // Tratamento específico para senha antiga errada
+          if (err.status === 400 || err.status === 401 || err.status === 403) {
+            this.toastService.error("A senha antiga está incorreta.");
+          } else {
+            this.toastService.error("Erro ao alterar a senha.");
+          }
         }
-      })
+      });
     }
   }
-
-  
-
-
 
   openModalAvaliacao(data: EditEvent){
     //console.log("Clicou na avaliacao");

@@ -1,119 +1,109 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SearchQuery, SpotifyResponse } from '../../models/dashboard.model';
 import { Spotify } from '../../services/spotify';
 import { MusicCard } from '../../shared/music-card/music-card';
 import { CardItem } from '../../models/music-card.model';
 import { AvaliacaoModal } from '../../shared/avaliacao-modal/avaliacao-modal';
-import { ItemSpotifyResponse } from '../../models/avalicao-card.model';
+import { ToastService } from '../../services/toast.service'; 
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true, 
   imports: [ReactiveFormsModule, MusicCard, AvaliacaoModal],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard implements OnInit{
 
+export class Dashboard implements OnInit {
 
-  newReleases= signal<CardItem[]>([]);
-
+  newReleases = signal<CardItem[]>([]);
   searchForm: FormGroup;
 
   searching = signal(false);
   results = signal<SpotifyResponse | null>(null);
   hasSearched = signal(false);
 
-
-  // signal que controla o modal
   selectedItem = signal<CardItem | null>(null);
 
   searchTypes = [
-    {label: "Álbum", value: "album"},
-    {label: "Artista", value: "artist"},
-    {label: "Música", value: "track"}
+    { label: "Álbum", value: "album" },
+    { label: "Artista", value: "artist" },
+    { label: "Música", value: "track" }
   ];
 
-  constructor(private fb: FormBuilder, private spotifyService: Spotify){
+  constructor(
+    private fb: FormBuilder, 
+    private spotifyService: Spotify,
+    private toastService: ToastService 
+  ) {
     this.searchForm = this.fb.group({
       query: [''],
-      type: ['album'] // valor inicial do select
-    })
+      type: ['album']
+    });
   }
+
   ngOnInit(): void {
     this.loadNewReleases();
   }
 
   loadNewReleases() {
-  this.spotifyService.getNewReleases().subscribe({
-    next: (response) => {
-      
-      const convertedItems: CardItem[] = response.map(item => {
-        // O item.album vem da estrutura ItemSpotifyResponseDto do Back
-        const album = item.album;
+    this.spotifyService.getNewReleases().subscribe({
+      next: (response) => {
+        const convertedItems: CardItem[] = response.map(item => {
+          const album = item.album;
+          const listaDeNomes: string[] = album.artists.map(artist => artist.name);
 
-        // 1. AQUI É O MAPEAMENTO DIRETO:
-        // O Back manda: [{name: "Metallica", uri: "..."}, {name: "Lady Gaga", uri: "..."}]
-        // O map transforma em: ["Metallica", "Lady Gaga"]
-        const listaDeNomes: string[] = album.artists.map(artist => artist.name);
+          return {
+            id: album.id,
+            imageUrl: album.images && album.images.length > 0 ? album.images[0].url : 'assets/default.png',
+            title: album.name,
+            subtitle: listaDeNomes.join(', '), 
+            type: 'album', 
+            albumData: {
+              releaseDate: album.release_date,
+              totalTracks: album.total_tracks,
+              artistNames: listaDeNomes 
+            }
+          };
+        });
 
-        return {
-          id: album.id,
-          imageUrl: album.images && album.images.length > 0 ? album.images[0].url : 'assets/default.png',
-          title: album.name,
-          
-          // Junta os nomes para exibir no card (ex: "Metallica, Lady Gaga")
-          subtitle: listaDeNomes.join(', '), 
-          
-          type: 'album', // New Releases são sempre álbuns
+        this.newReleases.set(convertedItems);
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error("Não foi possível carregar os lançamentos.");
+      }
+    });
+  }
 
-          // 2. Preenchendo o AlbumDetails estrito do Front
-          albumData: {
-            releaseDate: album.release_date,
-            totalTracks: album.total_tracks,
-            
-            // Aqui a listaDeNomes encaixa perfeitamente pois é string[]
-            artistNames: listaDeNomes 
-          }
-        };
-      });
+  search() {
+    if (!this.searchForm.value.query.trim()) return;
 
-      this.newReleases.set(convertedItems);
-    },
-    error: (err) => console.error('Erro ao carregar lançamentos', err)
-  });
-}
-
-  search(){
     this.searching.set(true);
-    // coletar o valor do select, e do input
+    
+    this.results.set(null); 
+
     const data: SearchQuery = {
       q: this.searchForm.value.query,
       type: this.searchForm.value.type
-    }
-    // chamar service do spotify
+    };
 
-    this.hasSearched.set(true);
-    
     this.spotifyService.search(data).subscribe({
       next: (resposta) => {
         this.searching.set(false);
-
         this.results.set(resposta);
-        console.log(resposta);
+        
+        this.hasSearched.set(true); 
       },
       error: (err) => {
         this.searching.set(false);
         console.error(err);
+        this.toastService.error("Erro ao realizar busca no Spotify.");
       }
-    }
-
-    );
+    });
   }
 
-
-  // sinal que ao acionado transforma o resultado do spotify em CardItems adequados
-  // O Mapeamento Inteligente
   displayItems = computed<CardItem[]>(() => {
     const rawData = this.results();
     if (!rawData) return [];
@@ -126,19 +116,17 @@ export class Dashboard implements OnInit{
         title: album.name,
         subtitle: 'Álbum',
         type: 'album',
-        externalUrl: `https://open.spotify.com/album/${album.id}`, // Link direto
+        externalUrl: `https://open.spotify.com/album/$${album.id}`, 
         
-        // Preenchendo os detalhes extras para o Modal
         albumData: {
           releaseDate: album.release_date || 'Desconhecido',
           totalTracks: album.total_tracks || 0,
-          // Mapeia a lista de artistas para um array de strings
           artistNames: album.artists?.map(a => a.name) || []
         }
       }));
     } 
     
-    // 2. Mapeamento de ARTISTAS
+    // Mapeamento de ARTISTAS
     else if (rawData.artists) {
       return rawData.artists.items.map(artist => ({
         id: artist.id,
@@ -146,21 +134,19 @@ export class Dashboard implements OnInit{
         title: artist.name,
         subtitle: 'Artista',
         type: 'artist',
-        externalUrl: `https://open.spotify.com/artist/${artist.id}`
-        // Artista não tem dados extras por enquanto
+        externalUrl: `https://open.spotify.com/artist/$${artist.id}`
       }));
     }
     
-    // 3. Mapeamento de MÚSICAS (Tracks)
+    // Mapeamento de MÚSICAS
     else if (rawData.tracks) {
       return rawData.tracks.items.map(track => ({
         id: track.id,
         imageUrl: track.album?.images?.[0]?.url || 'assets/images/default.png',
         title: track.name,
-        subtitle: track.artists?.[0]?.name, // Mostra o artista principal
+        subtitle: track.artists?.[0]?.name,
         type: 'track',
 
-        // Preenchendo os detalhes extras
         trackData: {
           albumName: track.album?.name || 'Desconhecido',
           artistNames: track.artists?.map(a => a.name) || []
@@ -171,15 +157,11 @@ export class Dashboard implements OnInit{
     return [];
   });
 
-
-  // função para abrir o modal
   openModal(item: CardItem){
     this.selectedItem.set(item);
   }
 
-  // função para fechar o modal
   closeModal(){
     this.selectedItem.set(null);
   }
-
 }

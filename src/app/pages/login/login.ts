@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { LoginRequest, LoginResponse } from '../../models/auth.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class Login {
  loading = signal(false); // signal para alterar o button para estado de carregando
  errorMsg = signal(""); // signal para guardar a mensagem de erro retornada pelo http (caso ocorra)
 
-  constructor(private fb: FormBuilder, private router: Router, private service: Auth) {
+  constructor(private fb: FormBuilder, private router: Router, private service: Auth,private toastService: ToastService) {
     // Aqui definimos os campos e as regras (Validators)
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -29,6 +30,7 @@ export class Login {
   }
 
   onSubmit() {
+    this.errorMsg.set("");
     this.loading.set(true);
     if (this.loginForm.valid) {
       // Coletando dados do formulário e colocando na interface de request para enviar ao back
@@ -41,8 +43,9 @@ export class Login {
         next: (response: LoginResponse) => {
           this.loginForm.reset();
           this.loading.set(false);
-          console.log("Token recebido:", response.token);
+          //console.log("Token recebido:", response.token);
 
+          this.toastService.success("Login realizado com sucesso. Bem-vindo!");
           // token foi salvo pelo tap la no service, redireciona para o dashboard
           this.router.navigate(['/dashboard'])
 
@@ -56,13 +59,17 @@ export class Login {
     }
   }
 
-  handleLoginError(err: HttpErrorResponse){
-    if(err.status === 0){
-      this.errorMsg.set("Não foi possível conectar ao servidor.");
-    } else if( err.status === 401 || err.status === 403){
-      this.errorMsg.set("Email ou senha inválidos");
-    } else{
-      this.errorMsg.set("Erro inesperado. Tente novamente");
+  handleLoginError(err: HttpErrorResponse) {
+    
+    if (err.status === 0) {
+      this.toastService.error("Não foi possível conectar ao servidor. Verifique sua internet.");
+    } 
+    else if (err.status === 401 || err.status === 403) {
+      // Erro de credencial é culpa do input -> MENSAGEM NO FORM (errorMsg)
+      this.errorMsg.set("E-mail ou senha inválidos.");
+    } 
+    else {
+      this.toastService.error("Ocorreu um erro inesperado. Tente novamente mais tarde.");
     }
   }
 }
