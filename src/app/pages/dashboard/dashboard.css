@@ -138,3 +138,165 @@
         gap: 15px;
     }
 }
+
+/* --- Títulos da Seção --- */
+.section-title {
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    margin-left: 10px;
+    text-shadow: 0 0 10px rgba(157, 0, 255, 0.5); /* Glow roxo */
+}
+
+.section-subtitle {
+    color: #a49ebf;
+    margin-left: 10px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* --- Carrossel Horizontal --- */
+.trending-section {
+    width: 100%;
+    margin-bottom: 3rem;
+    padding: 10px 0;
+}
+
+.horizontal-scroll {
+    display: flex;
+    gap: 20px; /* Espaço entre os cards */
+    overflow-x: auto; /* Permite rolar para o lado */
+    padding: 10px 10px 30px 10px; /* Padding embaixo pro scrollbar não colar */
+    
+    /* Comportamento suave no scroll */
+    scroll-behavior: smooth;
+    
+    /* Estilização da Barra de Rolagem (Firefox) */
+    scrollbar-width: thin;
+    scrollbar-color: #9D00FF #090014;
+}
+
+/* Estilização da Barra de Rolagem (Chrome/Webkit) */
+.horizontal-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+    background: #090014;
+    border-radius: 4px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+    background-color: #9D00FF;
+    border-radius: 4px;
+}
+
+/* Ajuste do Card dentro do Carrossel */
+.card-carousel {
+    flex: 0 0 auto; /* NÃO deixa o card encolher */
+    width: 180px; /* Tamanho fixo para o carrossel */
+    transition: transform 0.3s ease;
+}
+
+.card-carousel:hover {
+    transform: scale(1.05); /* Zoom leve ao passar o mouse */
+}
+
+/* --- Loading Spinner (Opcional, pra ficar bonito) --- */
+.loading-container {
+    text-align: center;
+    color: #00F3FF;
+    margin-top: 2rem;
+}
+
+/* Animação de entrada */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Títulos (Mantive igual) --- */
+.section-title {
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    margin-left: 10px;
+    text-shadow: 0 0 10px rgba(157, 0, 255, 0.5);
+}
+
+.section-subtitle {
+    color: #a49ebf;
+    margin-left: 10px;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+}
+
+/* --- Container do Carrossel --- */
+.marquee-container {
+    width: 100%;
+    overflow: hidden; /* Esconde o que sai da tela */
+    position: relative;
+    padding: 10px 0;
+    
+    /* Máscara de gradiente nas bordas (efeito fade-out nas laterais) */
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 5%,
+        black 95%,
+        transparent
+    );
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 5%,
+        black 95%,
+        transparent
+    );
+}
+
+/* --- Trilha que se move --- */
+.marquee-track {
+    display: flex;
+    gap: 20px; /* Espaço entre os cards */
+    width: max-content; /* Largura se adapta ao conteúdo total */
+    
+    /* A Animação Mágica */
+    animation: scroll-infinite 40s linear infinite;
+}
+
+/* PAUSA AO PASSAR O MOUSE (Importante!) */
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+/* Card dentro do carrossel */
+.card-carousel {
+    flex: 0 0 auto;
+    width: 180px;
+    transition: transform 0.3s ease;
+}
+
+.card-carousel:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    /* Adiciona um brilho extra ao focar */
+    filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.6));
+}
+
+/* --- Keyframes da Animação --- */
+@keyframes scroll-infinite {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Movemos -50% porque a lista está duplicada. 
+           Quando chegar na metade (fim da primeira lista), 
+           ele volta pro 0 instantaneamente. */
+        transform: translateX(-50%);
+    }
+}

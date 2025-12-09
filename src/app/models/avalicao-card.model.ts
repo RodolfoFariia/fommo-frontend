@@ -33,11 +33,12 @@ export interface Images{
 
 // Interface necessária para um objeto do album
 export interface Album{
+    id: string,
     total_tracks: number,
     images: Images[],
     name: string,
     release_date: string,
-    artists: ArtistObj,
+    artists: ArtistObj[],
     popularity: number
 }
 

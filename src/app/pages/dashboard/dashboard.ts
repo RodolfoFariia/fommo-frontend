@@ -1,10 +1,11 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { SearchQuery, SpotifyResponse } from '../../models/dashboard.model';
 import { Spotify } from '../../services/spotify';
 import { MusicCard } from '../../shared/music-card/music-card';
 import { CardItem } from '../../models/music-card.model';
 import { AvaliacaoModal } from '../../shared/avaliacao-modal/avaliacao-modal';
+import { ItemSpotifyResponse } from '../../models/avalicao-card.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,10 @@ import { AvaliacaoModal } from '../../shared/avaliacao-modal/avaliacao-modal';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard {
+export class Dashboard implements OnInit{
+
+
+  newReleases= signal<CardItem[]>([]);
 
   searchForm: FormGroup;
 
@@ -36,6 +40,49 @@ export class Dashboard {
       type: ['album'] // valor inicial do select
     })
   }
+  ngOnInit(): void {
+    this.loadNewReleases();
+  }
+
+  loadNewReleases() {
+  this.spotifyService.getNewReleases().subscribe({
+    next: (response) => {
+      
+      const convertedItems: CardItem[] = response.map(item => {
+        // O item.album vem da estrutura ItemSpotifyResponseDto do Back
+        const album = item.album;
+
+        // 1. AQUI É O MAPEAMENTO DIRETO:
+        // O Back manda: [{name: "Metallica", uri: "..."}, {name: "Lady Gaga", uri: "..."}]
+        // O map transforma em: ["Metallica", "Lady Gaga"]
+        const listaDeNomes: string[] = album.artists.map(artist => artist.name);
+
+        return {
+          id: album.id,
+          imageUrl: album.images && album.images.length > 0 ? album.images[0].url : 'assets/default.png',
+          title: album.name,
+          
+          // Junta os nomes para exibir no card (ex: "Metallica, Lady Gaga")
+          subtitle: listaDeNomes.join(', '), 
+          
+          type: 'album', // New Releases são sempre álbuns
+
+          // 2. Preenchendo o AlbumDetails estrito do Front
+          albumData: {
+            releaseDate: album.release_date,
+            totalTracks: album.total_tracks,
+            
+            // Aqui a listaDeNomes encaixa perfeitamente pois é string[]
+            artistNames: listaDeNomes 
+          }
+        };
+      });
+
+      this.newReleases.set(convertedItems);
+    },
+    error: (err) => console.error('Erro ao carregar lançamentos', err)
+  });
+}
 
   search(){
     this.searching.set(true);
@@ -45,6 +92,8 @@ export class Dashboard {
       type: this.searchForm.value.type
     }
     // chamar service do spotify
+
+    this.hasSearched.set(true);
     
     this.spotifyService.search(data).subscribe({
       next: (resposta) => {

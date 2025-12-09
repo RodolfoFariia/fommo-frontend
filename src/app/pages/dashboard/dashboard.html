@@ -24,29 +24,66 @@
 
     </form>
    
+    @if (!hasSearched() && !searching()) {
+    <div class="trending-section fade-in">
+        <h2 class="section-title">Novidades da Semana</h2>
+        <p class="section-subtitle">Os álbuns mais recentes pra você avaliar</p>
+        
+        <div class="marquee-container">
+            
+            <div class="marquee-track">
+                
+                @for (item of newReleases(); track item.id) {
+                    <app-music-card 
+                        [data]="item" 
+                        (click)="openModal(item)"
+                        class="card-carousel">
+                    </app-music-card>
+                }
+
+                @for (item of newReleases(); track 'dup-' + item.id) {
+                    <app-music-card 
+                        [data]="item" 
+                        (click)="openModal(item)"
+                        class="card-carousel">
+                    </app-music-card>
+                }
+
+            </div>
+        </div>
+    </div>
+}
+
+
     <div class="results-section">
 
         @if (searching()) {
-            <p>Buscando...</p>
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <p>Buscando no Spotify...</p>
+            </div>
         } 
-        @else {
-            <div class="grid-results">
+        @else if (hasSearched()) {
+            <div class="grid-results fade-in">
                 @for (item of displayItems(); track item.id){
                     <app-music-card [data]="item" (click)="openModal(item)"></app-music-card>
                 }
             </div>
 
-            @if(displayItems().length === 0 && hasSearched()){
-                <p>Nenhum resultado encontrado.</p>
+            @if(displayItems().length === 0){
+                <div class="empty-state">
+                    <p>Nenhum resultado encontrado.</p>
+                </div>
             }
         }
 
-</div>
+    </div>
 
 </div>
 
 @if (selectedItem()) {
     <app-avaliacao-modal 
         [item]="selectedItem()!" 
-        (close)="closeModal()"> </app-avaliacao-modal>
+        (close)="closeModal()"> 
+    </app-avaliacao-modal>
 }

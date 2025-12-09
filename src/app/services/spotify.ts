@@ -25,5 +25,9 @@ export class Spotify {
   getById(type: String, id: String ):Observable<ItemSpotifyResponse>{
     return this.http.get<ItemSpotifyResponse>(`${this.endpoint}/${type}/${id}`);
   }
+
+  getNewReleases(): Observable<ItemSpotifyResponse[]>{
+    return this.http.get<ItemSpotifyResponse[]>(`${this.endpoint}/new-releases`);
+  }
   
 }
