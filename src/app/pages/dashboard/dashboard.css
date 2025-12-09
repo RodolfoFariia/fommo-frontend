@@ -1,118 +1,178 @@
-/* --- Layout Principal --- */
 .container-dashboard {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
     min-height: 80vh;
+
+    padding-top: 1rem; 
 }
 
-/* --- Barra de Busca (O "Painel de Controle") --- */
+/* Barra de Busca */
 .search-bar-container {
     display: flex;
     gap: 15px;
     align-items: center;
     
-    /* Estilo de Vidro/Neon */
-    background-color: rgba(21, 16, 48, 0.95);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 1px solid rgba(157, 0, 255, 0.3); /* Borda roxa sutil */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     
-    margin-bottom: 2rem;
+    background-color: rgba(5, 5, 10, 0.85);
+    backdrop-filter: blur(15px);
+    
+    padding: 1.5rem;
+    border-radius: 20px;
+    
+    
+    border: 1px solid rgba(255, 0, 153, 0.2);
+    box-shadow: 0 0 30px rgba(255, 0, 153, 0.15);
+    
+    margin-bottom: 3rem;
+    transition: box-shadow 0.3s ease;
 }
 
-/* O Select (Tipo) */
+
+.search-bar-container:hover {
+    box-shadow: 0 0 40px rgba(255, 0, 153, 0.25);
+}
+
 .select-wrapper {
-    min-width: 120px;
+    min-width: 140px;
 }
 
-.custom-select {
+.custom-select, .search-input {
     width: 100%;
-    padding: 12px;
-    background-color: #090014; /* Fundo quase preto */
+    padding: 14px;
+    
+    
+    background-color: #090014; 
     border: 1px solid #2d2d44;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1rem;
-    outline: none;
-    cursor: pointer;
-    transition: border-color 0.3s;
-}
-
-.custom-select:focus {
-    border-color: #00F3FF; /* Ciano ao focar */
-}
-
-/* O Input de Texto */
-.search-input {
-    flex-grow: 1; /* Faz o input ocupar todo o espaço sobrando */
-    padding: 12px 16px;
-    background-color: #090014;
-    border: 1px solid #2d2d44;
-    border-radius: 8px;
+    border-radius: 10px;
+    
     color: #fff;
     font-size: 1rem;
     outline: none;
     transition: all 0.3s ease;
 }
 
-.search-input:focus {
-    border-color: #00F3FF; /* Ciano */
-    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); /* Glow */
+.search-input {
+    flex-grow: 1;
 }
 
-/* Placeholder (texto de dica) */
+
 .search-input::placeholder {
     color: #666;
 }
 
-/* O Botão Neon */
+
+.custom-select:focus, .search-input:focus {
+    border-color: #00F3FF;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    background-color: #151030;
+}
+
+
 .btn-neon {
-    padding: 12px 30px;
+    padding: 14px 35px;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 700;
     color: white;
+    text-transform: uppercase;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    
-    /* Gradiente Roxo -> Rosa */
     background: linear-gradient(45deg, #9D00FF, #FF0099);
-    box-shadow: 0 4px 15px rgba(157, 0, 255, 0.3);
-    transition: transform 0.2s, filter 0.2s;
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.3);
+    
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.btn-neon:hover {
+
+
+/* Seção de Novidades */
+.trending-section {
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    margin-left: 10px;
+}
+
+.section-subtitle {
+    color: #00F3FF; 
+    margin-left: 10px;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Container que esconde o scroll e faz o fade lateral */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0; /* Espaço para o hover do card não cortar */
+    
+    /* Máscara para suavizar as bordas esquerda/direita */
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 25px;
+    width: max-content;
+    animation: scroll-infinite 50s linear infinite; 
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.card-carousel {
+    flex: 0 0 auto;
+    width: 180px;
+    transition: transform 0.3s ease;
+}
+
+
+.card-carousel:hover {
     transform: scale(1.05);
-    filter: brightness(1.2); /* Fica mais brilhante */
+    z-index: 10; 
 }
 
-/* --- Área de Resultados (Grid) --- */
+/* Área de Resultados*/
 .results-section {
     margin-top: 2rem;
 }
 
-/* Texto de Status (Buscando... / Nenhum resultado) */
-.results-section p {
+.loading-container {
+    text-align: center;
+    color: #00F3FF;
+    margin-top: 3rem;
+    font-size: 1.2rem;
+    animation: pulse 1.5s infinite;
+}
+
+.empty-state p {
     text-align: center;
     color: #a49ebf;
     font-size: 1.2rem;
     margin-top: 3rem;
 }
 
-/* O Grid Responsivo */
 .grid-results {
     display: grid;
-    /* Mágica do CSS Grid: 
-       Cria colunas automaticamente que tenham no mínimo 200px.
-       Se a tela for grande, cabem 5. Se for pequena, cabem 2 ou 1. 
-    */
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 25px;
-    
-    /* Animação de entrada */
-    animation: fadeIn 0.5s ease-in-out;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 30px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* --- Animações --- */
+@keyframes scroll-infinite {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 @keyframes fadeIn {
@@ -120,183 +180,7 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Responsividade para Celular --- */
-@media (max-width: 768px) {
-    .search-bar-container {
-        flex-direction: column; /* Empilha os inputs */
-        align-items: stretch;   /* Estica para a largura total */
-        padding: 1rem;
-    }
-
-    .select-wrapper, .search-input, .btn-neon {
-        width: 100%;
-    }
-    
-    .grid-results {
-        /* No celular, cards menores ou lista */
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 15px;
-    }
-}
-
-/* --- Títulos da Seção --- */
-.section-title {
-    color: white;
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    margin-left: 10px;
-    text-shadow: 0 0 10px rgba(157, 0, 255, 0.5); /* Glow roxo */
-}
-
-.section-subtitle {
-    color: #a49ebf;
-    margin-left: 10px;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
-}
-
-/* --- Carrossel Horizontal --- */
-.trending-section {
-    width: 100%;
-    margin-bottom: 3rem;
-    padding: 10px 0;
-}
-
-.horizontal-scroll {
-    display: flex;
-    gap: 20px; /* Espaço entre os cards */
-    overflow-x: auto; /* Permite rolar para o lado */
-    padding: 10px 10px 30px 10px; /* Padding embaixo pro scrollbar não colar */
-    
-    /* Comportamento suave no scroll */
-    scroll-behavior: smooth;
-    
-    /* Estilização da Barra de Rolagem (Firefox) */
-    scrollbar-width: thin;
-    scrollbar-color: #9D00FF #090014;
-}
-
-/* Estilização da Barra de Rolagem (Chrome/Webkit) */
-.horizontal-scroll::-webkit-scrollbar {
-    height: 8px;
-}
-
-.horizontal-scroll::-webkit-scrollbar-track {
-    background: #090014;
-    border-radius: 4px;
-}
-
-.horizontal-scroll::-webkit-scrollbar-thumb {
-    background-color: #9D00FF;
-    border-radius: 4px;
-}
-
-/* Ajuste do Card dentro do Carrossel */
-.card-carousel {
-    flex: 0 0 auto; /* NÃO deixa o card encolher */
-    width: 180px; /* Tamanho fixo para o carrossel */
-    transition: transform 0.3s ease;
-}
-
-.card-carousel:hover {
-    transform: scale(1.05); /* Zoom leve ao passar o mouse */
-}
-
-/* --- Loading Spinner (Opcional, pra ficar bonito) --- */
-.loading-container {
-    text-align: center;
-    color: #00F3FF;
-    margin-top: 2rem;
-}
-
-/* Animação de entrada */
-.fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Títulos (Mantive igual) --- */
-.section-title {
-    color: white;
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    margin-left: 10px;
-    text-shadow: 0 0 10px rgba(157, 0, 255, 0.5);
-}
-
-.section-subtitle {
-    color: #a49ebf;
-    margin-left: 10px;
-    margin-bottom: 2rem;
-    font-size: 0.9rem;
-}
-
-/* --- Container do Carrossel --- */
-.marquee-container {
-    width: 100%;
-    overflow: hidden; /* Esconde o que sai da tela */
-    position: relative;
-    padding: 10px 0;
-    
-    /* Máscara de gradiente nas bordas (efeito fade-out nas laterais) */
-    mask-image: linear-gradient(
-        to right,
-        transparent,
-        black 5%,
-        black 95%,
-        transparent
-    );
-    -webkit-mask-image: linear-gradient(
-        to right,
-        transparent,
-        black 5%,
-        black 95%,
-        transparent
-    );
-}
-
-/* --- Trilha que se move --- */
-.marquee-track {
-    display: flex;
-    gap: 20px; /* Espaço entre os cards */
-    width: max-content; /* Largura se adapta ao conteúdo total */
-    
-    /* A Animação Mágica */
-    animation: scroll-infinite 40s linear infinite;
-}
-
-/* PAUSA AO PASSAR O MOUSE (Importante!) */
-.marquee-track:hover {
-    animation-play-state: paused;
-}
-
-/* Card dentro do carrossel */
-.card-carousel {
-    flex: 0 0 auto;
-    width: 180px;
-    transition: transform 0.3s ease;
-}
-
-.card-carousel:hover {
-    transform: scale(1.05);
-    z-index: 10;
-    /* Adiciona um brilho extra ao focar */
-    filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.6));
-}
-
-/* --- Keyframes da Animação --- */
-@keyframes scroll-infinite {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        /* Movemos -50% porque a lista está duplicada. 
-           Quando chegar na metade (fim da primeira lista), 
-           ele volta pro 0 instantaneamente. */
-        transform: translateX(-50%);
-    }
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }

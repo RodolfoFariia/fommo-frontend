@@ -78,7 +78,7 @@
                 <input type="password" formControlName="senha_nova">
 
                 <button type="button" class="btn-modal-cancel" (click)="closePasswordModal()">Cancelar</button>
-                <button type="submit" (click)="changePassword()" [disabled]="passwordForm.invalid">Alterar Senha</button>
+                <button type="submit" class="btn-modal-password" (click)="changePassword()" [disabled]="passwordForm.invalid">Alterar Senha</button>
 
             </form>
         </div>

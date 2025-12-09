@@ -1,81 +1,87 @@
-/* O Container do Card */
+
 .card {
-    background-color: rgba(21, 16, 48, 0.6); /* Fundo escuro e translúcido */
-    border: 1px solid rgba(157, 0, 255, 0.2); /* Borda roxa sutil */
-    border-radius: 12px; /* Cantos arredondados */
-    overflow: hidden; /* Garante que a imagem respeite as bordas */
+    background-color: rgba(5, 5, 10, 0.85); 
+    backdrop-filter: blur(5px); 
+    
+    
+    border: 1px solid rgba(255, 0, 153, 0.2); 
+    
+    border-radius: 12px;
+    overflow: hidden;
     cursor: pointer;
     
-    /* Transições suaves para animação */
+   
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     
-    /* Garante que o card ocupe 100% da largura da coluna do grid */
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    
+   
+    box-shadow: 0 4px 10px rgba(255, 0, 153, 0.2);
 }
 
-/* --- EFEITO HOVER (A Mágica Neon) --- */
 .card:hover {
-    transform: translateY(-8px); /* O card "flutua" para cima */
-    border-color: #cc00ff; /* Borda vira Ciano Neon */
-    box-shadow: 0 10px 25px rgba(0, 243, 255, 0.2); /* Brilho (Glow) Ciano */
+    transform: translateY(-8px);
+    border-color: #00F3FF; 
+    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.25); 
 }
 
-/* A Imagem (Capa) */
+
 .card img {
     width: 100%;
-    /* aspect-ratio: 1/1 força a imagem a ser sempre QUADRADA (padrão de álbum) */
     aspect-ratio: 1 / 1; 
-    object-fit: cover; /* Corta a imagem para preencher o quadrado sem esticar */
+    object-fit: cover;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: filter 0.3s ease;
 }
 
 /* Brilho na imagem ao passar o mouse */
 .card:hover img {
-    filter: brightness(1.1);
+    filter: brightness(1.3);
 }
 
-/* Área de Texto */
+
 .card-info {
     padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    flex-grow: 1; /* Empurra o conteúdo para ocupar espaço se sobrar */
+    flex-grow: 1;
 }
 
-/* Título (Nome da música/artista) */
+
 .title {
     margin: 0;
     color: #ffffff;
     font-weight: 600;
     font-size: 1rem;
     
-    /* Limita o texto a 2 linhas para não quebrar o layout */
+    /* Serve para adicionar ... quanto o título é mt grande*/
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    
+    transition: color 0.3s ease;
 }
 
-/* Subtítulo (Nome do artista/Tipo) */
+
 .subtitle {
     margin: 0;
-    color: #a49ebf; /* Cinza arroxeado */
+    color: #a49ebf; 
     font-size: 0.85rem;
     font-weight: 500;
     
-    /* Limita a 1 linha */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* Muda a cor do título no hover também */
+
 .card:hover .title {
-    color: #00F3FF; /* Ciano */
+    color: #00F3FF; 
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); 
 }

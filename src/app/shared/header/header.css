@@ -1,116 +1,117 @@
-
-.header{
+.header {
     display: flex;
     flex-direction: row;
     align-items: center;
-
     justify-content: space-between;
     
-    margin: 0.5rem;
+    
+    margin: 20px 40px; 
     padding: 0 2rem;
-    min-height: 8vh;
+    height: 80px;
 
-    border: 1px solid black; 
-    border-radius: 45px;
-     /* Usando o roxo escuro com transparência */
-    background-color: black;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Sombra para destacar do fundo */
+    
+    background-color: rgba(5, 5, 10, 0.85); 
+    backdrop-filter: blur(10px); 
+    
+    
+    border: none; 
+    border-radius: 50px;
+    
+    /* Usamos DUAS sombras para criar o efeito de tubo de luz */
+    box-shadow: 
+        /* Sombra INTERNA (inset) -> Cria uma borda de luz suave dentro do header */
+        inset 0 0 15px rgba(255, 0, 153, 0.3),
+        
+        /* Sombra EXTERNA: O "esfumado" forte brilhando para fora */
+        0 0 30px rgba(255, 0, 153, 0.5),
+        
+        0 0 5px rgba(255, 0, 153, 0.7);
     
     color: white;
+    z-index: 100;
+    position: relative;
 }
 
-#logo-content{
+#logo-content {
     display: flex;
     align-items: center;
-    gap: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
-.fommo-text{
-    color: white;
-    font-family: "Rubik Glitch", system-ui;
-    font-weight: 400;
-    font-size: 2rem;
-    
-    letter-spacing: 2px;
-    
-    /* Gradiente no texto para ficar Cyberpunk */
-    background: linear-gradient(to right, #00F3FF, #FF0099);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+#logo-content:hover {
+    transform: scale(1.05);
 }
 
-.nav-links{
+.logo-img {
+    height: 60px;
+    width: auto;
+}
+
+.nav-links {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
 }
 
-.text-user{
-    font-size: 1.1rem;
+.text-user {
+    font-size: 1rem;
     color: #ccc;
+    font-weight: 500;
+    margin-right: 10px;
 }
 
-.text-user strong {
-    color: #fff;
-}
-
-
+/* Links Início, Minha Conta, Entrar */
 .link-text, .link-btn {
     text-decoration: none;
     color: #e0e0e0;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
 .link-text:hover, .link-btn:hover {
-    color: #00F3FF; /* Ciano no hover */
+    color: #00F3FF; /* Ciano Neon no hover */
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
 }
 
-/* Botão de Destaque (Registre-se) */
+/* Página Atual */
+.active-link {
+    color: #00F3FF !important;
+    font-weight: 700;
+    position: relative;
+}
+
 .link-btn-primary {
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: 600;
     color: white;
     
-    /* Estilo de Botão Neon */
+    
     padding: 10px 24px;
     border-radius: 50px;
     background: linear-gradient(45deg, #9D00FF, #FF0099);
     box-shadow: 0 0 10px rgba(157, 0, 255, 0.4);
+    
     transition: transform 0.2s, filter 0.2s;
+    border: none; 
 }
 
 .link-btn-primary:hover {
-    transform: scale(1.05); /* Cresce um pouco */
-    filter: brightness(1.2); /* Brilha mais */
+    transform: scale(1.05);
+    filter: brightness(1.2); /* Brilha mais ao passar o mouse */
+    box-shadow: 0 0 20px rgba(255, 0, 153, 0.6);
 }
 
-/* Adicione/Altere isso: */
-
-.logo-img {
-    height: 80px; /* Ajuste para caber na altura do seu header (que tem min-height 80px) */
-    width: auto;  /* Mantém a proporção correta */
-    object-fit: contain;
-    
-    /* Opcional: Se for SVG, você pode adicionar um filtro de sombra neon */
-    
-}
-
-/* Ajuste o container para alinhar bem */
-#logo-content {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer; /* Importante para indicar que é clicável (Home) */
-}
-
-/* Quando o link estiver ativo (página atual) */
-.active-link {
-    color: #00F3FF !important; /* Texto Ciano Neon */
-    border-color: #00F3FF !important; /* Se tiver borda */
-    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+/* Responsividade Básica */
+@media (max-width: 900px) {
+    .header {
+        margin: 10px;
+        padding: 0 1rem;
+    }
+    .text-user {
+        display: none;
+    }
 }

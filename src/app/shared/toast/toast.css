@@ -2,49 +2,70 @@
       position: fixed;
       top: 20px;
       right: 20px;
-      z-index: 9999; /* Acima de tudo, inclusive modais */
+      z-index: 9999;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      pointer-events: none; /* Deixa clicar no site através da área vazia */
+      gap: 15px; /* Um pouco mais de espaço entre eles */
+      pointer-events: none;
     }
 
     .toast {
-      pointer-events: auto; /* Reativa cliques no card */
-      min-width: 300px;
-      padding: 16px;
-      border-radius: 8px;
-      background: rgba(21, 16, 48, 0.95); /* Fundo escuro padrão */
+      pointer-events: auto;
+      min-width: 320px;
+      padding: 16px 20px;
+      border-radius: 12px; 
+      
+      background: rgba(5, 5, 10, 0.95);
+      backdrop-filter: blur(10px);
+      
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
       
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
       cursor: pointer;
       
-      animation: slideIn 0.3s ease-out;
-      backdrop-filter: blur(5px);
+      animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+      transition: transform 0.2s, opacity 0.2s;
     }
 
-    /* Cores Cyberpunk */
-    .toast.success {
-      border-left: 4px solid #00FF99; /* Verde Neon */
-      box-shadow: 0 0 15px rgba(0, 255, 153, 0.1);
+    .toast:hover {
+      transform: translateX(-5px);
+      filter: brightness(1.1);
     }
+
+  
+    .toast.success {
+      border-left: 5px solid #00FF99;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 255, 153, 0.15);
+    }
+    .toast.success .icon { color: #00FF99; }
 
     .toast.error {
-      border-left: 4px solid #FF4B4B; /* Vermelho Neon */
-      box-shadow: 0 0 15px rgba(255, 75, 75, 0.1);
+      border-left: 5px solid #FF4B4B;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 75, 75, 0.15);
     }
+    .toast.error .icon { color: #FF4B4B; }
+
+    .toast.info {
+      border-left: 5px solid #00F3FF;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 243, 255, 0.15);
+    }
+    .toast.info .icon { color: #00F3FF; }
 
     .message {
       font-size: 0.95rem;
-      font-weight: 500;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .icon {
+        font-size: 1.2rem;
     }
 
     @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
+      from { transform: translateX(120%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }

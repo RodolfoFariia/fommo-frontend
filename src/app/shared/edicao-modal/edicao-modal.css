@@ -1,36 +1,39 @@
-/* --- 1. Overlay (Fundo Escuro) --- */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* Bem escuro para foco */
-    backdrop-filter: blur(5px); /* Desfoque moderno */
-    z-index: 2000;
     
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    
+    z-index: 2000;
     display: flex;
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s ease;
 }
 
-/* --- 2. Janela do Modal (Grid de 2 Colunas) --- */
+
 .modal-content {
     display: grid;
-    grid-template-columns: 320px 1fr; /* Esquerda Fixa | Direita Flexível */
+    grid-template-columns: 340px 1fr;
     width: 90vw;
-    max-width: 900px;
-    height: 85vh; /* Altura fixa */
+    max-width: 950px;
+    height: 85vh;
     
-    background-color: #151030; /* Roxo Profundo */
-    border: 1px solid rgba(157, 0, 255, 0.5); /* Borda Neon */
-    border-radius: 16px;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(157, 0, 255, 0.2);
+
+    background-color: rgba(5, 5, 10, 0.95);
+    border: 1px solid rgba(255, 0, 153, 0.3); 
+    border-radius: 20px;
     
+    box-shadow: 
+        0 0 50px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(255, 0, 153, 0.15);
+        
     overflow: hidden;
     position: relative;
 }
 
-/* Botão Fechar (X) */
 .btn-close-x {
     position: absolute;
     top: 15px; right: 20px;
@@ -42,13 +45,15 @@
     z-index: 10;
     transition: color 0.2s;
 }
-.btn-close-x:hover { color: #FF3366; }
+.btn-close-x:hover { 
+    color: #FF0099; 
+    text-shadow: 0 0 10px rgba(255, 0, 153, 0.5);
+}
 
-/* --- 3. Coluna Esquerda (Visual do Item) --- */
 .item-content {
-    background-color: rgba(0, 0, 0, 0.3); /* Fundo mais escuro */
+    background-color: rgba(255, 255, 255, 0.02);
+    border-right: 1px solid rgba(255, 0, 153, 0.2);
     padding: 2.5rem 2rem;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
     
     display: flex;
     flex-direction: column;
@@ -57,10 +62,9 @@
     overflow-y: auto;
 }
 
-/* Wrapper da Imagem */
 .image-wrapper {
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
     margin-bottom: 1.5rem;
     position: relative;
 }
@@ -70,19 +74,23 @@
     height: 100%;
     object-fit: cover;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s;
 }
 
-/* Estilo Especial para Artista (Redondo) */
+.image-wrapper img:hover { transform: scale(1.02); }
+
+/* Artista (Redondo) */
 .artist-wrapper img {
-    border-radius: 50%; /* Círculo perfeito */
-    border: 2px solid #00F3FF; /* Borda Ciano */
+    border-radius: 50%;
+    border: 2px solid #00F3FF; 
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
 }
 
-/* Tipografia do Item */
+/* Títulos e Links */
 .title {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: white;
     margin-bottom: 0.5rem;
@@ -90,24 +98,137 @@
 }
 
 .subtitle {
-    color: #00F3FF; /* Ciano Neon */
-    font-size: 1rem;
+    color: #00F3FF;
+    font-size: 1.1rem;
     margin-bottom: 1.5rem;
 }
 
+.spotify-link {
+    color: #00F3FF;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.spotify-link:hover { 
+    color: white; 
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+}
+
+.artists-list {
+    margin-bottom: 1.5rem;
+    color: #a49ebf;
+    font-size: 0.95rem;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+}
+.meta-item.full-width {
+    grid-column: span 2;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+    margin-top: 5px;
+}
+
+.meta-item label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666; 
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.meta-item span {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Popularidade */
+.popularity-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+.popularity-container.mt-auto { margin-top: auto; }
+
+.popularity-container label {
+    display: block;
+    font-size: 0.8rem;
+    color: #a49ebf;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FF0099, #00F3FF); 
+    box-shadow: 0 0 10px rgba(255, 0, 153, 0.4);
+}
+
+.pop-value {
+    float: right;
+    font-size: 0.8rem;
+    color: #00F3FF;
+    font-weight: bold;
+}
+
+/* Badge Música/Álbum */
 .type-badge {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ccc;
-    padding: 5px 12px;
+    margin-top: auto;
+    background: rgba(255, 0, 153, 0.1);
+    color: #FF0099;
+    padding: 6px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: auto; /* Empurra para baixo se sobrar espaço */
+    border: 1px solid rgba(255, 0, 153, 0.3);
+    font-weight: 700;
+}
+
+/* Tags de Gênero */
+.genres-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+.genre-tag {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    text-transform: capitalize;
 }
 
 
-/* --- 4. Coluna Direita (Formulário) --- */
+
 .avaliacao-edit {
     padding: 2.5rem;
     overflow-y: auto;
@@ -119,8 +240,9 @@
     color: white;
     font-size: 1.5rem;
     margin-bottom: 2rem;
-    border-left: 4px solid #FF0099; /* Detalhe Rosa */
-    padding-left: 12px;
+    border-left: 4px solid #FF0099; 
+    padding-left: 15px;
+    font-weight: 700;
 }
 
 .avaliacao-form {
@@ -130,7 +252,7 @@
     flex-grow: 1;
 }
 
-/* Inputs e Labels */
+/* Inputs */
 .input {
     display: flex;
     flex-direction: column;
@@ -143,60 +265,54 @@
     font-weight: 500;
 }
 
-.input input, 
-.input textarea {
+.input input, .input textarea {
     width: 100%;
-    padding: 12px;
+    padding: 12px 16px;
     background-color: #090014;
     border: 1px solid #2d2d44;
-    border-radius: 8px;
+    border-radius: 10px;
     color: white;
-    font-size: 1rem;
     font-family: inherit;
+    font-size: 1rem;
     transition: all 0.3s ease;
 }
 
-/* Wrapper da Nota (Input + Estrela) */
+
 .nota-input-wrapper {
     position: relative;
-    width: 100px; /* Input pequeno para nota */
+    width: 120px;
 }
-
 .star-icon {
     position: absolute;
-    right: 10px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: #FFEA00; /* Amarelo */
-    pointer-events: none; /* Deixa clicar através do ícone */
+    color: #FFEA00;
+    pointer-events: none;
 }
 
-/* ESTADO: FOCO (Editando) */
-.input input:focus, 
-.input textarea:focus {
+.input input:focus, .input textarea:focus {
     outline: none;
     border-color: #00F3FF;
     box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-    background-color: #1A1A2E;
+    background-color: #151030;
 }
 
-/* ESTADO: DESABILITADO (Modo Leitura) 
-   Transforma o input em algo que parece texto comum */
-.input input:disabled, 
-.input textarea:disabled {
+/* Modo Leitura (Desabilitado) */
+.input input:disabled, .input textarea:disabled {
     background-color: transparent;
-    border: 1px solid transparent; /* Remove borda */
+    border: 1px solid transparent; 
     padding-left: 0;
-    color: #fff; /* Texto branco brilhante */
+    color: #fff;
     font-weight: 600;
-    resize: none; /* Remove alça do textarea */
+    resize: none;
     cursor: default;
+    opacity: 1; /* Remove transparência  do navegador */
 }
 
-
-/* --- 5. Botões de Ação --- */
+/* Botões */
 .options {
-    margin-top: auto; /* Empurra para o final */
+    margin-top: auto;
     display: flex;
     gap: 15px;
     padding-top: 20px;
@@ -206,38 +322,45 @@
 button {
     flex: 1;
     padding: 12px;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.2s;
     font-size: 0.95rem;
+    text-transform: uppercase;
 }
-button:hover { transform: translateY(-2px); }
 
-/* Botão Editar */
+
 .btn-edit {
     background: transparent;
     border: 1px solid #00F3FF;
     color: #00F3FF;
 }
-.btn-edit:hover { box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
+.btn-edit:hover { 
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
 
-/* Botão Excluir */
+
 .btn-delete {
     background: transparent;
     border: 1px solid #FF4B4B;
     color: #FF4B4B;
 }
 .btn-delete:hover { 
-    background: rgba(255, 75, 75, 0.1); 
-    box-shadow: 0 0 15px rgba(255, 75, 75, 0.2); 
+    background: rgba(255, 75, 75, 0.1);
+    box-shadow: 0 0 15px rgba(255, 75, 75, 0.3);
 }
 
-/* Botão Salvar */
+
 .btn-save {
     border: none;
-    background: linear-gradient(45deg, #00F3FF, #9D00FF);
+    background: linear-gradient(45deg, #00F3FF, #0066FF); 
     color: #090014;
+}
+.btn-save:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.4);
 }
 .btn-save:disabled {
     filter: grayscale(1);
@@ -245,166 +368,15 @@ button:hover { transform: translateY(-2px); }
     cursor: not-allowed;
 }
 
-/* Botão Cancelar */
+
 .btn-cancel {
     background: transparent;
     border: 1px solid #666;
     color: #ccc;
 }
-.btn-cancel:hover { border-color: white; color: white; }
+.btn-cancel:hover { border-color: white; color: white; background: rgba(255,255,255,0.05); }
 
 
-/* --- 6. Responsividade --- */
-@media (max-width: 768px) {
-    .modal-content {
-        grid-template-columns: 1fr; /* Uma coluna só */
-        height: 95vh;
-        overflow-y: auto; /* Rola a janela inteira */
-    }
 
-    .item-content {
-        padding: 1.5rem;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .image-wrapper { width: 150px; height: 150px; }
-}
-
-/* Animação */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.fade-in {
-    animation: fadeIn 0.5s ease;
-}
-
-
-/* (Mantenha o CSS anterior de layout do modal, overlay, etc.) */
-/* Adicione apenas o que há de novo abaixo: */
-
-/* --- Links do Spotify --- */
-.artists-list {
-    margin-bottom: 1rem;
-    color: #a49ebf;
-    font-size: 0.9rem;
-}
-
-.spotify-link {
-    color: #00F3FF;
-    text-decoration: none;
-    transition: color 0.2s;
-    font-weight: 500;
-}
-.spotify-link:hover {
-    color: white;
-    text-decoration: underline;
-}
-
-.subtitle-link {
-    display: block;
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-}
-
-/* --- Grid de Metadados (Duração, Lançamento, Faixas) --- */
-.meta-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    width: 100%;
-    margin-bottom: 1.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.meta-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centraliza texto */
-}
-
-.meta-item.full-width {
-    grid-column: span 2;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 10px;
-    margin-top: 5px;
-}
-
-.meta-item label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: #666;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-}
-
-.meta-item span {
-    color: white;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-/* --- Barra de Popularidade --- */
-.popularity-container {
-    width: 100%;
-    margin-bottom: 1.5rem;
-}
-
-.popularity-container.mt-auto {
-    margin-top: auto; /* Empurra pro final se estiver em flex column */
-}
-
-.popularity-container label {
-    display: block;
-    font-size: 0.8rem;
-    color: #a49ebf;
-    margin-bottom: 8px;
-    text-align: left;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 5px;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #00F3FF, #00FF99); /* Degradê Ciano -> Verde */
-    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
-    transition: width 0.5s ease-out;
-}
-
-.pop-value {
-    font-size: 0.8rem;
-    color: #00FF99;
-    font-weight: bold;
-    float: right;
-}
-
-/* --- Tags de Gêneros (Artista) --- */
-.genres-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 1.5rem;
-}
-
-.genre-tag {
-    background-color: rgba(157, 0, 255, 0.2);
-    border: 1px solid rgba(157, 0, 255, 0.4);
-    color: #e0e0e0;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    text-transform: capitalize;
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.fade-in { animation: fadeIn 0.5s ease; }

@@ -3,92 +3,95 @@
     align-items: center;     
     justify-content: center; 
     gap: 4rem;               
-    min-height: 80vh;        
+    min-height: 85vh;
     padding: 2rem;
+    
+    
+    animation: fadeIn 0.8s ease-out;
 }
 
-
 .img-container {
-    
     width: 450px;
     height: 450px;
-    
     border-radius: 50%;
-    
-    /* Garante que a imagem não vaze do círculo */
-    overflow: hidden;
     
     display: flex;
     align-items: center;
     justify-content: center;
     
+    animation: float 6s ease-in-out infinite;
 }
 
 .logo-img {
-    width: 120%; 
+    width: 110%; 
     height: auto;
     object-fit: contain;
-    
-    /* Animação suave fazendo a logo flutuar) */
-    animation: float 5s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 0, 153, 0.4));
 }
 
-
 .text-content {
-    max-width: 500px; 
+    max-width: 550px; 
 }
 
 .text-content h1 {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     color: white;
 }
-/*
+
+/* Gradiente no texto */
 .highlight {
-    /* Gradiente no texto 
     background: linear-gradient(to right, #00F3FF, #FF0099);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.3));
 }
-*/
 
 .text-content p {
-    font-size: 1.3rem; 
-    color: #000000;
+    font-size: 1.2rem; 
+    
+    color: #a49ebf;
+    
     line-height: 1.6;
     margin-bottom: 2.5rem;
 }
 
 .text-content strong {
-    color: #600363; /* Destaque em branco para a frase de efeito */
-    font-weight: 600;
+    color: #00F3FF; 
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.4);
 }
 
-.div-btn{
+
+.div-btn {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; 
     align-items: center;
 }
 
 .btn-start {
-    padding: 12px 30px;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 800;
     color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
     background: linear-gradient(45deg, #9D00FF, #FF0099);
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-
     
+    
+    box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .btn-start:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255, 0, 153, 0.4);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 0 40px rgba(255, 0, 153, 0.6); 
 }
 
 
@@ -98,3 +101,7 @@
     100% { transform: translateY(0px); }
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
