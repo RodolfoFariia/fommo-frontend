@@ -107,3 +107,10 @@
     gap: 15px;
     cursor: pointer; /* Importante para indicar que é clicável (Home) */
 }
+
+/* Quando o link estiver ativo (página atual) */
+.active-link {
+    color: #00F3FF !important; /* Texto Ciano Neon */
+    border-color: #00F3FF !important; /* Se tiver borda */
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+}

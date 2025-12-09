@@ -5,15 +5,18 @@
 
     <nav class="nav-links">
         @if (isLogged()){
-        <span class="text-user">Olá, {{userName()}}</span>
-        <a class="link-btn" routerLink="/usuario">Minha Conta</a>
-        <a class="link-btn" (click)="logout()">Sair</a>
+            <span class="text-user">Olá, {{userName()}}</span>
+            
+            <a class="link-btn" routerLink="/dashboard" routerLinkActive="active-link">Início</a>
+
+            <a class="link-btn" routerLink="/usuario" routerLinkActive="active-link">Minha Conta</a>
+            
+            <a class="link-btn" (click)="logout()">Sair</a>
         }
         @else{
             <a class="link-text" routerLink="/login">Entrar</a>
             <a class="link-btn-primary" routerLink="/register">Registre-se</a>
         }
     </nav>
-    
 
 </header>

@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Ocupa no mínimo a tela inteira */
-  background: linear-gradient(45deg, #b699b2, #7a317c);
+  background: radial-gradient(circle at center, #1a1a2e 0%, #090014 100%);
 }
 
 /* O main vai "crescer" (flex: 1) para ocupar todo o espaço vazio disponível */
