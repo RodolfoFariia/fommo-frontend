@@ -184,3 +184,40 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
 }
+
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    padding-bottom: 2rem;
+    animation: fadeIn 0.5s ease;
+}
+
+.btn-load-more {
+    background: transparent;
+    border: 1px solid rgba(255, 0, 153, 0.5); 
+    color: #FF0099; 
+    padding: 12px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.btn-load-more:hover {
+    background: rgba(255, 0, 153, 0.1);
+    box-shadow: 0 0 20px rgba(255, 0, 153, 0.4); 
+    transform: translateY(-2px);
+    color: white;
+    border-color: #FF0099;
+}
+
+.loading-text {
+    color: #00F3FF; 
+    font-style: italic;
+    animation: pulse 1s infinite;
+}

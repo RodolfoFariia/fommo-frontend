@@ -13,9 +13,9 @@ export class Spotify {
 
   constructor(private http: HttpClient){ }
 
-  search(data: SearchQuery): Observable<SpotifyResponse> {
+  search(data: SearchQuery, offset: number = 0, limit: number = 20): Observable<SpotifyResponse> {
     // construindo parametros que serão enviados no corpo da requisição
-    const params = new HttpParams().set('q', data.q).set('type', data.type);
+    const params = new HttpParams().set('q', data.q).set('type', data.type).set('limit',limit).set('offset',offset);
 
 
     return this.http.get<SpotifyResponse>(

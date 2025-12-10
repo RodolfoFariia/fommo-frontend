@@ -57,22 +57,37 @@
 
     <div class="results-section">
 
-        @if (searching()) {
+        @if (searching() && offset() === 0) {
             <div class="loading-container">
-                <div class="spinner"></div>
-                <p>Buscando no Spotify...</p>
+                <div class="spinner"></div> <p>Buscando no Spotify...</p>
             </div>
         } 
+        
         @else if (hasSearched()) {
+            
             <div class="grid-results fade-in">
                 @for (item of displayItems(); track item.id){
                     <app-music-card [data]="item" (click)="openModal(item)"></app-music-card>
                 }
             </div>
 
-            @if(displayItems().length === 0){
+            @if(displayItems().length === 0 && !searching()){
                 <div class="empty-state">
                     <p>Nenhum resultado encontrado.</p>
+                </div>
+            }
+
+            @if(displayItems().length > 0 && hasMore()) {
+                <div class="load-more-container">
+                    <button (click)="loadMore()" class="btn-load-more" [disabled]="searching()">
+                        
+                        @if(searching()) {
+                            <span>Carregando...</span>
+                        } @else {
+                            <span>Carregar Mais</span>
+                        }
+                        
+                    </button>
                 </div>
             }
         }

@@ -26,6 +26,11 @@ export class Dashboard implements OnInit {
 
   selectedItem = signal<CardItem | null>(null);
 
+  displayItems = signal<CardItem[]>([]);
+  offset = signal(0);
+  limit = 20;
+  hasMore = signal(false);
+
   searchTypes = [
     { label: "Álbum", value: "album" },
     { label: "Artista", value: "artist" },
@@ -81,81 +86,98 @@ export class Dashboard implements OnInit {
     if (!this.searchForm.value.query.trim()) return;
 
     this.searching.set(true);
+    this.hasSearched.set(true);
     
-    this.results.set(null); 
+    // RESET TOTAL: Nova busca = começa do zero
+    this.offset.set(0);
+    this.displayItems.set([]); 
+    this.hasMore.set(false);
 
+    this.fetchData();
+  }
+
+  loadMore() {
+    //  Atual = Atual + 20
+    this.offset.update(val => val + this.limit);
+    this.fetchData();
+  }
+
+  fetchData() {
     const data: SearchQuery = {
       q: this.searchForm.value.query,
       type: this.searchForm.value.type
     };
 
-    this.spotifyService.search(data).subscribe({
+    // Chama o service passando o offset atual
+    this.spotifyService.search(data, this.offset(), this.limit).subscribe({
       next: (resposta) => {
         this.searching.set(false);
-        this.results.set(resposta);
         
-        this.hasSearched.set(true); 
+        
+        const newItems = this.mapResponseToCards(resposta);
+
+        // Se vieram menos itens que o limite  acabou a lista
+        if (newItems.length < this.limit) {
+            this.hasMore.set(false);
+        } else {
+            this.hasMore.set(true);
+        }
+
+        this.displayItems.update(current => [...current, ...newItems]);
       },
       error: (err) => {
         this.searching.set(false);
         console.error(err);
-        this.toastService.error("Erro ao realizar busca no Spotify.");
+        this.toastService.error("Erro ao buscar mais itens.");
       }
     });
   }
 
-  displayItems = computed<CardItem[]>(() => {
-    const rawData = this.results();
+
+  private mapResponseToCards(rawData: SpotifyResponse): CardItem[] {
     if (!rawData) return [];
 
-    // 1. Mapeamento de ÁLBUNS
     if (rawData.albums) {
       return rawData.albums.items.map(album => ({
         id: album.id,
-        imageUrl: album.images?.[0]?.url || 'assets/images/default.png',
+        imageUrl: album.images?.[0]?.url || 'assets/default.png',
         title: album.name,
         subtitle: 'Álbum',
         type: 'album',
-        externalUrl: `https://open.spotify.com/album/$${album.id}`, 
-        
         albumData: {
           releaseDate: album.release_date || 'Desconhecido',
           totalTracks: album.total_tracks || 0,
-          artistNames: album.artists?.map(a => a.name) || []
+          artistNames: album.artists?.map(a => a.name) || [] 
         }
       }));
     } 
     
-    // Mapeamento de ARTISTAS
     else if (rawData.artists) {
       return rawData.artists.items.map(artist => ({
         id: artist.id,
-        imageUrl: artist.images?.[0]?.url || 'assets/images/default.png',
+        imageUrl: artist.images?.[0]?.url || 'assets/default.png',
         title: artist.name,
         subtitle: 'Artista',
-        type: 'artist',
-        externalUrl: `https://open.spotify.com/artist/$${artist.id}`
+        type: 'artist'
       }));
     }
-    
-    // Mapeamento de MÚSICAS
     else if (rawData.tracks) {
       return rawData.tracks.items.map(track => ({
         id: track.id,
-        imageUrl: track.album?.images?.[0]?.url || 'assets/images/default.png',
+        imageUrl: track.album?.images?.[0]?.url || 'assets/default.png',
         title: track.name,
-        subtitle: track.artists?.[0]?.name,
+        subtitle: track.artists?.[0]?.name || 'Artista Desconhecido',
         type: 'track',
-
         trackData: {
-          albumName: track.album?.name || 'Desconhecido',
-          artistNames: track.artists?.map(a => a.name) || []
+            albumName: track.album?.name || 'Desconhecido',
+            
+            artistNames: track.artists?.map(a => a.name) || []
         }
       }));
     }
 
     return [];
-  });
+  }
 
   openModal(item: CardItem){
     this.selectedItem.set(item);
