@@ -34,7 +34,7 @@ Este projeto foi desenvolvido como parte da disciplina de Programação Web da *
 
 | 3. Feedback (Toast) | 4. Editando Avaliação |
 |:---:|:---:|
-| ![Success Feedback](./docs/dash_posAvaliacao.png) | ![Edit Review](./docs/avaliacao_editar.png) |
+| ![Success Feedback](./docs/dash_posAvaliacoes.png) | ![Edit Review](./docs/avaliacao_editar.png) |
 | *Confirmação visual da ação* | *Atualização de dados via modal* |
 
 ---
