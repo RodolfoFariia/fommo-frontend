@@ -12,30 +12,53 @@ Este projeto foi desenvolvido como parte da disciplina de Programação Web da *
 
 ## 📸 Screenshots
 
-> *As imagens abaixo demonstram o fluxo de uso da aplicação.*
+Abaixo, apresentamos o fluxo completo de utilização da plataforma **FOMMO**.
 
-### 🌌 Acesso e Visão Geral
-| Login / Autenticação | Dashboard: Lançamentos (Marquee) |
-|:---:|:---:|
-| ![Login Screen](./docs/login.png) | ![Dashboard New Releases](./docs/dashboard_newreleases.png) |
-| *Entrada com identidade visual Cyberpunk* | *Carrossel infinito de novidades do Spotify* |
+### 1. Acesso e Identidade Visual
+A porta de entrada da aplicação, apresentando o design system "Dark Glass" com validações em tempo real.
+![Login Screen](./docs/login.png)
 
-### 🔍 Busca e Resultados
-| Busca Integrada | Perfil do Usuário |
-|:---:|:---:|
-| ![Search Results](./docs/dashboard_search.png) | ![User Profile](./docs/user.png) |
-| *Grid de resultados com paginação manual* | *Gestão de conta e histórico pessoal* |
+---
 
-### ⭐ Fluxo de Avaliação
-| 1. Detalhes do Álbum | 2. Criando Avaliação |
-|:---:|:---:|
-| ![View Details](./docs/dash_avaliacao.png) | ![New Review Form](./docs/dash_newAvaliacao.png) |
-| *Visualização rica de metadados* | *Formulário com validação e nota decimal* |
+### 2. Dashboard: Novidades (Infinite Marquee)
+Ao entrar, o usuário é recebido com as novidades da semana em um carrossel infinito animado via CSS.
+![Dashboard New Releases](./docs/dashboard_newreleases.png)
 
-| 3. Feedback (Toast) | 4. Editando Avaliação |
-|:---:|:---:|
-| ![Success Feedback](./docs/dash_posAvaliacoes.png) | ![Edit Review](./docs/avaliacao_editar.png) |
-| *Confirmação visual da ação* | *Atualização de dados via modal* |
+---
+
+### 3. Busca Integrada ao Spotify
+Pesquisa de álbuns, artistas e músicas em tempo real. A grid de resultados conta com paginação manual ("Carregar Mais") para otimizar a performance.
+![Search Results](./docs/dashboard_search.png)
+
+---
+
+### 4. Detalhes do Item
+Ao clicar em um card, um modal se abre exibindo metadados ricos (capa, data, faixas, popularidade) consumidos da API do Spotify.
+![View Details](./docs/dash_avaliacao.png)
+
+---
+
+### 5. Criando uma Avaliação
+O usuário pode registrar sua opinião. O formulário conta com tratamento para notas decimais e validação de campos.
+![New Review Form](./docs/dash_newAvaliacao.png)
+
+---
+
+### 6. Feedback Visual
+Após a ação, o sistema utiliza Toasts Notifications (no canto superior direito) para confirmar o sucesso da operação.
+![Success Feedback](./docs/dash_posAvaliacao.png)
+
+---
+
+### 7. Perfil do Usuário
+Área de gestão onde o usuário visualiza seus dados e o histórico de todas as suas avaliações. O menu lateral acompanha a rolagem da página (Sticky).
+![User Profile](./docs/user.png)
+
+---
+
+### 8. Edição e Gestão
+Ao clicar em uma avaliação antiga, o usuário pode editar a nota/texto ou excluir o registro através de um modal dedicado.
+![Edit Review](./docs/avaliacao_editar.png)
 
 ---
 
