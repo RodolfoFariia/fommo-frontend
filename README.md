@@ -102,7 +102,7 @@ Ao clicar em uma avaliação antiga, o usuário pode editar a nota/texto ou excl
 ### 2. Instalação
 ```bash
 # Clone o repositório
-git clone [LINK_DO_SEU_REPO_FRONT]
+git clone [https://github.com/RodolfoFariia/fommo-frontend]
 
 # Entre na pasta
 cd fommo-front
