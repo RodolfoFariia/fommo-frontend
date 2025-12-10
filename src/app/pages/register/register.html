@@ -41,7 +41,12 @@
         id="password" 
         formControlName="senha"
         placeholder="••••••••"
+        [class.input-error]="f['senha'].hasError('minlength') && f['senha'].dirty"
       >
+      
+      @if (f['senha'].hasError('minlength') && f['senha'].dirty) {
+          <span class="field-error">A senha deve ter no mínimo 4 caracteres.</span>
+      }
     </div>
 
     <div class="input-group">
