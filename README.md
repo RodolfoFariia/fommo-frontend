@@ -45,8 +45,8 @@ O usuário pode registrar sua opinião. O formulário conta com tratamento para 
 ---
 
 ### 6. Feedback Visual
-Após a ação, o sistema utiliza Toasts Notifications (no canto superior direito) para confirmar o sucesso da operação.
-![Success Feedback](./docs/dash_posAvaliacao.png)
+Após a ação, o sistema lista as avaliações do card selecionado.
+![Success Feedback](./docs/dash_posAvaliacoes.png)
 
 ---
 
