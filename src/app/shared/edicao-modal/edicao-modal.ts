@@ -32,8 +32,8 @@ export class EdicaoModal implements OnInit {
   ){
     this.avaliacaoForm = this.fb.group({
       nota: ['', [Validators.required, Validators.max(5), Validators.min(0)]],
-      titulo: ['', [Validators.required, Validators.maxLength(20)]],
-      textoAvaliacao: ['', [Validators.required, Validators.maxLength(200)]]
+      titulo: ['', [Validators.required, Validators.maxLength(100)]],
+      textoAvaliacao: ['', [Validators.required, Validators.maxLength(500)]]
     });
 
     this.avaliacaoForm.disable();
