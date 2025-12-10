@@ -32,7 +32,7 @@ export class AvaliacaoModal implements OnInit {
   ){
     this.avaliacaoForms = this.fb.group({
       nota: ['', [Validators.required, Validators.max(5), Validators.min(0)]],
-      titulo: ['', [Validators.required, Validators.maxLength(20)]],
+      titulo: ['', [Validators.required, Validators.maxLength(100)]],
       textoAvaliacao: ['', [Validators.required, Validators.maxLength(200)]]
     });
   }  
