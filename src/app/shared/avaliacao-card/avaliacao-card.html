@@ -7,12 +7,12 @@
         @else if (spotifyDetails(); as item) {
             
             @if (avaliacao().tipo_item === 'track') {
-                <img [src]="$any(item).album?.images?.[0]?.url || 'assets/default.png'" 
+                <img [src]="$any(item).album?.images?.[0]?.url || 'images/default.png'" 
                      alt="Capa da Música" 
                      class="fade-in">
             }
             @else {
-                <img [src]="$any(item).images?.[0]?.url || 'assets/default.png'" 
+                <img [src]="$any(item).images?.[0]?.url || 'images/default.png'" 
                      alt="Capa do Artista/Álbum" 
                      class="fade-in">
             }

@@ -8,7 +8,7 @@
             
             @if(dataEdit().avaliacao.tipo_item === 'track'){
                 <div class="image-wrapper">
-                    <img [src]="$any(dataEdit().spotifyItem).album?.images?.[0]?.url || 'assets/default.png'" 
+                    <img [src]="$any(dataEdit().spotifyItem).album?.images?.[0]?.url || 'images/default.png'" 
                          alt="Capa do Álbum" class="fade-in">
                 </div>
                 
@@ -52,7 +52,7 @@
 
             @if(dataEdit().avaliacao.tipo_item === 'album'){
                 <div class="image-wrapper">
-                    <img [src]="$any(dataEdit().spotifyItem).images?.[0]?.url || 'assets/default.png'" 
+                    <img [src]="$any(dataEdit().spotifyItem).images?.[0]?.url || 'images/default.png'" 
                          alt="Capa do Álbum" class="fade-in">
                 </div>
 
@@ -88,7 +88,7 @@
 
             @if(dataEdit().avaliacao.tipo_item === 'artist'){
                 <div class="image-wrapper artist-wrapper">
-                    <img [src]="$any(dataEdit().spotifyItem).images?.[0]?.url || 'assets/default.png'" 
+                    <img [src]="$any(dataEdit().spotifyItem).images?.[0]?.url || 'images/default.png'" 
                          alt="Foto do Artista" class="fade-in">
                 </div>
 
