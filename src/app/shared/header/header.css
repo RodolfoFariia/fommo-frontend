@@ -23,9 +23,9 @@
         inset 0 0 15px rgba(255, 0, 153, 0.3),
         
         /* Sombra EXTERNA: O "esfumado" forte brilhando para fora */
-        0 0 30px rgba(255, 0, 153, 0.5),
+        0 0 30px rgba(255, 0, 153, 0.3),
         
-        0 0 5px rgba(255, 0, 153, 0.7);
+        0 0 5px rgba(255, 0, 153, 0.5);
     
     color: white;
     z-index: 100;

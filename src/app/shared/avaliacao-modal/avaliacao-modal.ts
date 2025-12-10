@@ -111,4 +111,20 @@ export class AvaliacaoModal implements OnInit {
       }
     });
   }
+
+  formatarNota(){
+    const control = this.avaliacaoForms.get('nota');
+
+    if(control?.value !== null && control?.value !== ''){
+      let valor = parseFloat(control?.value);
+
+      // definindo limites
+      if (valor > 5) valor = 5;
+      if (valor < 0) valor = 0;
+
+      const valorFormatado = Math.round(valor * 10) / 10; // arredondando para somente uma casa decimal sempre
+
+      control?.setValue(valorFormatado)
+    }
+  }
 }

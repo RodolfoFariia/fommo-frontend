@@ -25,7 +25,7 @@ export class Login {
     // Aqui definimos os campos e as regras (Validators)
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(1)]]
+      senha: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
 

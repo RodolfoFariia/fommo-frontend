@@ -19,8 +19,8 @@
     
     box-shadow: 
         inset 0 0 15px rgba(255, 0, 153, 0.3), /* Brilho interno */
-        0 0 30px rgba(255, 0, 153, 0.5),      /* Esfumado externo */
-        0 0 5px rgba(255, 0, 153, 0.7);       /* Definição da borda */
+        0 0 30px rgba(255, 0, 153, 0.3),      /* Esfumado externo */
+        0 0 5px rgba(255, 0, 153, 0.5);       /* Definição da borda */
 
     color: #a49ebf; 
     font-size: 0.9rem;

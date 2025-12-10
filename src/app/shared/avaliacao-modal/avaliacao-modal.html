@@ -84,7 +84,7 @@
                         
                         <div class="input-group">
                             <label>Nota (0 a 5)</label>
-                            <input type="number" formControlName="nota" min="0" max="5" placeholder="5">
+                            <input type="number" formControlName="nota" min="0" max="5" step="0.1" (blur)="formatarNota()"  placeholder="5">
                         </div>
 
                         <div class="input-group">
