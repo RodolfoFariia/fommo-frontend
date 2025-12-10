@@ -84,10 +84,9 @@ Ao clicar em uma avaliação antiga, o usuário pode editar a nota/texto ou excl
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Framework:** Angular 17+
+* **Framework:** Angular 20.3.11
 * **Linguagem:** TypeScript
-* **Estilização:** CSS3 (Grid, Flexbox, Animations, Variables)
-* **Consumo de API:** HttpClient, RxJS
+* **Consumo de API:** HttpClient
 * **Gerenciamento de Estado:** Signals
 * **Formulários:** Reactive Forms
 
@@ -124,15 +123,15 @@ Acesse `http://localhost:4200/` no seu navegador.
 ## 🔗 Integração com Backend
 
 Este projeto depende da API FOMMO para funcionar.
-Acesse o repositório da API aqui: [FOMMO Backend - GitHub](https://github.com/RodolfoFariia/fommo-backend)
+Acesse o repositório da API aqui: [FOMMO Backend - GitHub](https://github.com/RodolfoFariia/fommo-project)
 
 ---
 
-## 👨‍💻 Autores
+## 👨‍💻 Autor
 
-Projeto desenvolvido por graduandos em Ciência da Computação pela **UNIFEI**:
+Projeto desenvolvido por graduando em Ciência da Computação pela **UNIFEI**:
 
-| **Rodolfo Henrique Faria** | **Rafael Santos P. B. Leite** |
-|:--------------------------:|:-----------------------------:|
-| [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rodolfofaaria/) | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rafael-santos-pinto-batista-leite/) |
-| [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/RodolfoFariia) | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nottfael) |
+| **Rodolfo Henrique Faria** |
+|:--------------------------:|
+| [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rodolfofaaria/) |
+| [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/RodolfoFariia) |
